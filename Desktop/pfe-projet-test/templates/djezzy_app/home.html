@@ -1,0 +1,155 @@
+{% extends 'djezzy_app/base.html' %}
+{% load static %}
+    {% block content %}
+    <link rel="stylesheet"href="{% static 'css/home.css'%}"
+   
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Trouvez l'emploi idéal pour vos compétences</h1>
+            <p>Notre plateforme spécialisée aide les candidats à trouver des emplois qui correspondent exactement à leurs préférences et compétences. En analysant votre profil professionnel, nous vous connectons aux opportunités qui valorisent vos talents spécifiques et respectent vos critères personnels. Que vous recherchiez un environnement de travail particulier, un secteur d'activité précis ou des missions alignées avec votre expertise, nous vous guidons vers les postes qui vous permettront de vous épanouir et d'exceller dans votre domaine.</p>
+            
+            <div class="stats">Plus de 5000 offres d'emploi disponibles</div>
+        </div>
+        <div class="hero-image">
+            <div class="hero-circle"></div>
+          <img src="{% static 'img/images (1).jpeg'%}" alt="Professionnel en costume d'affaires">
+        </div>
+    </section>
+
+    <!-- Section des solutions de recrutement -->
+    <section class="recruitment-solutions">
+        <h2>Solutions de recrutement innovantes</h2>
+        <p>Nous proposons des approches personnalisées pour vous aider à trouver les meilleurs talents ou votre prochain emploi.</p>
+        
+        <div class="solutions-cards">
+            <div class="solution-card">
+                <div class="solution-icon">&#128188;</div>
+                <h3>Valorisation des compétences</h3>
+                <p>Notre algorithme intelligent analyse votre profil et met en avant vos compétences clés pour vous connecter aux emplois qui correspondent le mieux à votre expertise.</p>
+            </div>
+            <div class="solution-card">
+                <div class="solution-icon">&#128196;</div>
+                <h3>Offres personnalisées</h3>
+                <p>Recevez des recommandations d'emploi adaptées à vos préférences professionnelles, votre parcours et vos aspirations de carrière.</p>
+            </div>
+            <div class="solution-card">
+                <div class="solution-icon">&#129309;</div>
+                <h3>Expérience candidat optimisée</h3>
+                <p>Profitez d'un accompagnement sur mesure tout au long de votre recherche d'emploi, du dépôt de CV jusqu'à la préparation aux entretiens.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section compétences recherchées -->
+    <section class="skills">
+        <h2>Compétences les plus recherchées</h2>
+        <div class="skills-container">
+            <div class="skill-item">
+                <div class="skill-icon">&#128187;</div>
+                <h3>Développement web</h3>
+                <p>JavaScript, React, Node.js</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">&#128202;</div>
+                <h3>Data Science</h3>
+                <p>Python, R, Machine Learning</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">&#128161;</div>
+                <h3>Marketing Digital</h3>
+                <p>SEO, Content Marketing, Analytics</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">&#128736;</div>
+                <h3>DevOps</h3>
+                <p>CI/CD, Docker, Kubernetes</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">&#128241;</div>
+                <h3>Développement Mobile</h3>
+                <p>Swift, Kotlin, Flutter</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">&#129504;</div>
+                <h3>Intelligence Artificielle</h3>
+                <p>Deep Learning, NLP, Computer Vision</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">&#128295;</div>
+                <h3>Gestion de projet</h3>
+                <p>Agile, Scrum, Kanban</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">&#128210;</div>
+                <h3>Design UX/UI</h3>
+                <p>Figma, Adobe XD, Prototypage</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section recrutement personnalisé -->
+    <section class="custom-recruitment">
+        <div class="custom-recruitment-content">
+            <h2>Votre parcours professionnel personnalisé</h2>
+            <p>Notre plateforme vous offre une expérience sur mesure qui s'adapte à votre profil unique et à vos ambitions professionnelles.</p>
+            <p>Grâce à nos outils avancés de correspondance et notre réseau d'entreprises partenaires, nous identifions rapidement les opportunités qui valorisent véritablement vos compétences et respectent vos préférences.</p>
+            <a href="connexion.html" class="contact-btn">Créer mon profil</a>
+        </div>
+        <div class="custom-recruitment-image">
+            <img src="{% static 'img/images (2).jpeg'%}" alt="Candidat consultant son profil professionnel">
+        </div>
+    </section>
+
+    <div class="careers-container">
+        <div class="careers-content">
+            <div class="careers-image">
+                <img src="{% static 'img/Lart de la négociation _ 10 étapes pour réussir votre transition professionnelle.jpg'%}" alt="Carrières Djezzy">
+            </div>
+            <div class="careers-text">
+                <div class="careers-badge">Rejoignez notre équipe</div>
+                <h2 class="careers-heading">Découvrez nos <span>opportunités de carrière</span> chez Djezzy</h2>
+                <p class="careers-description">
+                    Chez Djezzy, nous croyons que nos collaborateurs sont notre plus grande richesse. 
+                    Nous proposons des opportunités passionnantes dans différents domaines, 
+                    avec un environnement de travail stimulant, des défis innovants et un parcours de carrière enrichissant.
+                </p>
+                
+                <div class="key-points">
+                    <div class="point-item">
+                        <div class="point-icon">✓</div>
+                        <span>Postes dans toute l'Algérie</span>
+                    </div>
+                    <div class="point-item">
+                        <div class="point-icon">✓</div>
+                        <span>Formations professionnelles</span>
+                    </div>
+                    <div class="point-item">
+                        <div class="point-icon">✓</div>
+                        <span>Avantages sociaux attractifs</span>
+                    </div>
+                    <div class="point-item">
+                        <div class="point-icon">✓</div>
+                        <span>Environnement multiculturel</span>
+                    </div>
+                </div>
+                
+                <a href="offres d'emploi.html" class="careers-cta">Voir toutes les offres</a>
+                
+                <div class="careers-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Postes ouverts</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4000+</div>
+                        <div class="stat-label">Employés</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Villes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
