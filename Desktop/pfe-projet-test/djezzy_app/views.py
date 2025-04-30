@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from django.contrib.auth.models import User
 from django.utils import timezone
 from .serializers import OffreSerializer, CandidatureSerializer
@@ -11,8 +11,8 @@ from rest_framework.exceptions import ValidationError
 from django.shortcuts import render
 from django.contrib.auth import authenticate
 from rest_framework import permissions
-from rest_framework.permissions import AllowAny,IsAuthenticated, IsAdminUser
-from rest_framework.decorators import action, api_view
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from .models import (
@@ -20,7 +20,7 @@ from .models import (
     Formation, Experience, Offre, Candidature, Region
 )
 from .serializers import (
-    CandidatSerializer,
+    CandidatSerializer, CandidatDetailSerializer,
     LangueSerializer,
     DomaineSerializer,
     SpecialiteSerializer,
@@ -29,7 +29,9 @@ from .serializers import (
     ExperienceSerializer,
     OffreSerializer,
     CandidatureSerializer,
-    RegionSerializer
+    RegionSerializer,
+    RegisterCandidatSerializer,  # Assurez-vous que ce serializer existe
+    UpdateCandidatProfileSerializer  # Créez ce serializer dans serializers.py
 )
 
 
@@ -42,14 +44,12 @@ def home(request):
 from rest_framework import viewsets
 
 
-
-
 class IsAdmin(permissions.BasePermission):
     """
     Permission personnalisée qui vérifie si l'utilisateur est un administrateur (role=admin).
     """
     def has_permission(self, request, view):
-        return request.user and request.user.role == 'admin'
+        return request.user.is_authenticated and hasattr(request.user, 'role') and request.user.role == 'admin'
 
 
 class IsCandidat(permissions.BasePermission):
@@ -57,24 +57,28 @@ class IsCandidat(permissions.BasePermission):
     Permission personnalisée qui vérifie si l'utilisateur est un candidat (role=candidat).
     """
     def has_permission(self, request, view):
-       return request.user.is_authenticated and hasattr(request.user, 'role') and request.user.role == 'candidat'
+        return request.user.is_authenticated and hasattr(request.user, 'role') and request.user.role == 'candidat'
 
+
+class IsOwnerOrReadOnly(permissions.BasePermission):
+    """
+    Permission qui permet seulement au propriétaire de l'objet de le modifier.
+    """
+    def has_object_permission(self, request, view, obj):
+        # Les permissions en lecture sont autorisées pour toute requête
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # L'écriture est autorisée uniquement au propriétaire
+        if hasattr(obj, 'candidat'):
+            return obj.candidat.user == request.user
+        return False
 
 
 @api_view(['POST'])
 def logout_view(request):
     logout(request)
     return Response({"message": "Déconnexion réussie"})
-
-
-
-
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import status
-from django.contrib.auth.models import User
-from .models import Candidat
-
 
 
 # views.py
@@ -84,108 +88,144 @@ from rest_framework import status
 from .serializers import RegisterCandidatSerializer
 
 
-
-
 class RegisterCandidatView(APIView):
+    """
+    Vue permettant l'inscription d'un nouveau candidat.
+    Cette vue crée à la fois un utilisateur Django et un profil Candidat.
+    """
+    permission_classes = [AllowAny]
+    
     def post(self, request):
-        serializer = CandidatSerializer(data=request.data)
+        serializer = RegisterCandidatSerializer(data=request.data)
         if serializer.is_valid():
             candidat = serializer.save()
-            # Hachage du mot de passe
-            candidat.set_password(request.data.get('password'))
-            candidat.save()
-            return Response({"message": "Compte candidat créé avec succès"}, status=status.HTTP_201_CREATED)
+            return Response({
+                "message": "Compte candidat créé avec succès",
+                "candidat_id": candidat.id
+            }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from django.utils import timezone
-
-from .models import Candidat, Offre, Candidature
-from .serializers import CandidatSerializer
-
 class CandidatViewSet(viewsets.ModelViewSet):
     """
-    Permet aux candidats de gérer leur propre compte et leurs informations personnelles.
+    Permet aux candidats de gérer leur propre profil et d'accéder à leurs informations.
     """
     queryset = Candidat.objects.all()
     serializer_class = CandidatSerializer
     permission_classes = [IsAuthenticated]
-
-    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
-    def postuler_offre_api(self, request):
+    
+    def get_queryset(self):
+        """Filtre pour retourner uniquement le candidat connecté ou tous les candidats pour les admins"""
+        if self.request.user.is_staff:
+            return Candidat.objects.all()
+        elif hasattr(self.request.user, 'candidat'):
+            return Candidat.objects.filter(id=self.request.user.candidat.id)
+        return Candidat.objects.none()
+    
+    def get_serializer_class(self):
+        """Utilise le serializer détaillé pour le profil complet ou pour la mise à jour"""
+        if self.action in ['retrieve']:
+            return CandidatDetailSerializer
+        elif self.action in ['update', 'partial_update']:
+            return UpdateCandidatProfileSerializer
+        return super().get_serializer_class()
+    
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def profile(self, request):
         """
-        Permet à un candidat de postuler à une offre d'emploi.
-        Un candidat peut postuler à une offre une seule fois. Si le candidat a déjà postulé, 
-        une erreur est retournée. La date de postulation est ajoutée automatiquement.
+        Récupère le profil du candidat connecté.
         """
-        # Vérifier si l'utilisateur est authentifié et est un candidat
-        if not request.user.is_authenticated:
-            return Response({"detail": "Vous devez être authentifié pour postuler."}, status=status.HTTP_403_FORBIDDEN)
-
         try:
-            # Récupérer le candidat associé à l'utilisateur
             candidat = request.user.candidat
+            serializer = CandidatDetailSerializer(candidat)
+            return Response(serializer.data)
         except Candidat.DoesNotExist:
-            return Response({"detail": "Aucun candidat trouvé pour cet utilisateur."}, status=status.HTTP_403_FORBIDDEN)
-
-        # Récupération de l'ID de l'offre depuis la requête
-        offre_id = request.data.get('offre')
-
-        # Vérifier si l'offre existe
+            return Response({"detail": "Profil de candidat non trouvé."}, status=status.HTTP_404_NOT_FOUND)
+    
+    @action(detail=False, methods=['put', 'patch'], permission_classes=[IsAuthenticated])
+    def update_profile(self, request):
+        """
+        Permet au candidat de mettre à jour son profil.
+        """
         try:
-            offre = Offre.objects.get(id=offre_id)
-        except Offre.DoesNotExist:
-            return Response({"detail": "Offre introuvable"}, status=status.HTTP_404_NOT_FOUND)
+            candidat = request.user.candidat
+            serializer = UpdateCandidatProfileSerializer(candidat, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({
+                    "message": "Profil mis à jour avec succès",
+                    "candidat": CandidatDetailSerializer(candidat).data
+                })
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Candidat.DoesNotExist:
+            return Response({"detail": "Profil de candidat non trouvé."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Vérifier si le candidat a déjà postulé à cette offre
-        if Candidature.objects.filter(candidat=candidat, offre=offre).exists():
-            return Response({"detail": "Vous avez déjà postulé à cette offre."}, status=status.HTTP_400_BAD_REQUEST)
+@action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
+def postuler_offre(self, request):
+    """
+    Permet à un candidat de postuler à une offre d'emploi.
+    """
+    try:
+        # Vérifier si l'utilisateur est un candidat
+        candidat = request.user.candidat
+    except AttributeError:
+        return Response({"detail": "Aucun profil candidat trouvé pour cet utilisateur."}, status=status.HTTP_403_FORBIDDEN)
 
-        # Création de la candidature avec la date de postulation automatique
-        Candidature.objects.create(
-            candidat=candidat,
-            offre=offre,
-            date_postulation=timezone.now()  # Ajout de la date de postulation automatique
-        )
+    # Récupération de l'ID de l'offre depuis la requête
+    offre_id = request.data.get('offre')
 
-        return Response({"detail": "Candidature réussie"}, status=status.HTTP_201_CREATED)
+    # Vérifier si l'offre existe
+    try:
+        offre = Offre.objects.get(id_offre=offre_id)
+    except Offre.DoesNotExist:
+        return Response({"detail": "Offre introuvable"}, status=status.HTTP_404_NOT_FOUND)
 
+    # Vérifier si le candidat a déjà postulé à cette offre
+    if Candidature.objects.filter(candidat=candidat, offre=offre).exists():
+        return Response({"detail": "Vous avez déjà postulé à cette offre."}, status=status.HTTP_400_BAD_REQUEST)
 
-from rest_framework import viewsets
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from .models import Offre, Candidature
-from .serializers import OffreSerializer, CandidatureSerializer
-from .permissions import IsAdmin
+    # Création de la candidature
+    candidature = Candidature.objects.create(
+        candidat=candidat,
+        offre=offre,
+        date_postulation=timezone.now()
+    )
 
+    return Response({
+        "detail": "Candidature réussie",
+        "candidature_id": candidature.id
+    }, status=status.HTTP_201_CREATED)    
 
 
 class OffreViewSet(viewsets.ModelViewSet):
     """
     Permet à l'administrateur de gérer les offres d'emploi de sa région uniquement.
+    Les candidats peuvent voir toutes les offres mais ne peuvent pas les modifier.
     """
     queryset = Offre.objects.all()
     serializer_class = OffreSerializer
-    permission_classes = [AllowAny]  # Tu peux mettre une autre permission si nécessaire
+    permission_classes = [AllowAny]  # Autorisation de base: lecture pour tous
 
-    def get_queryset(self):
-        """
+    def get_permissions(self):
+     """
         Retourne les offres de l'administrateur uniquement pour sa propre région.
         Si l'utilisateur est un administrateur, il peut gérer les offres de toutes les régions.
         """
-        if self.request.user.is_staff:
-            return Offre.objects.all()
-        else:
-            try:
-                admin = self.request.user.admin  # accès à l'objet Admin lié
-                return Offre.objects.filter(admin=admin, region=admin.region)
-            except AttributeError:
-                return Offre.objects.none()
+     if self.action in ['create', 'update', 'partial_update', 'destroy']:
+        return [IsAdmin()]
+     return [AllowAny()]
+
+    def get_queryset(self):
+     """
+     Retourne les offres de l'administrateur uniquement pour sa propre région.
+     Si l'utilisateur est un administrateur, il peut gérer les offres de toutes les régions.
+     """
+     if self.request.user.is_authenticated and self.request.user.is_staff:
+        return Offre.objects.all()
+     elif self.request.user.is_authenticated and hasattr(self.request.user, 'admin'):
+        admin = self.request.user.admin  # accès à l'objet Admin lié
+        return Offre.objects.filter(admin=admin, region=admin.region)
+     return Offre.objects.all()  # Les candidats peuvent voir toutes les offres 
 
     @action(detail=True, methods=['get'], permission_classes=[IsAdmin])
     def candidats(self, request, pk=None):
@@ -200,47 +240,56 @@ class OffreViewSet(viewsets.ModelViewSet):
 
 class DomaineViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Permet à l'administrateur de consulter les domaines des candidats, mais pas de les modifier.
+    Permet à tout le monde de consulter les domaines, mais pas de les modifier.
     """
     queryset = Domaine.objects.all()
     serializer_class = DomaineSerializer
-    permission_classes = [AllowAny]  # L'admin peut consulter mais ne peut pas modifier
+    permission_classes = [AllowAny]
 
 
 class SpecialiteViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Permet à l'administrateur de consulter les spécialités des candidats, mais pas de les modifier.
+    Permet à tout le monde de consulter les spécialités, mais pas de les modifier.
     """
     queryset = Specialite.objects.all()
     serializer_class = SpecialiteSerializer
-    permission_classes = [AllowAny]  # L'admin peut consulter mais ne peut pas modifier
+    permission_classes = [AllowAny]
 
 
 class LangueViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Permet à l'administrateur de consulter les langues des candidats, mais pas de les modifier.
+    Permet à tout le monde de consulter les langues, mais pas de les modifier.
     """
     queryset = Langue.objects.all()
     serializer_class = LangueSerializer
-   # permission_classes = [AllowAny]  # L'admin peut consulter mais ne peut pas modifier
+    permission_classes = [AllowAny]
 
 
 class CompetenceViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Permet à l'administrateur de consulter les compétences des candidats, mais pas de les modifier.
+    Permet à tout le monde de consulter les compétences, mais pas de les modifier.
     """
     queryset = Competence.objects.all()
     serializer_class = CompetenceSerializer
-    permission_classes = [AllowAny]  # L'admin peut consulter mais ne peut pas modifier
+    permission_classes = [AllowAny]
+
+
+class RegionViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Permet à tout le monde de consulter les régions, mais pas de les modifier.
+    """
+    queryset = Region.objects.all()
+    serializer_class = RegionSerializer
+    permission_classes = [AllowAny]
 
 
 class ExperienceViewSet(viewsets.ModelViewSet):
     """
-    Permet au candidat de gérer ses expériences professionnelles et permet à l'administrateur de consulter les expériences des candidats de sa région.
+    Permet au candidat de gérer ses expériences professionnelles.
     """
     queryset = Experience.objects.all()
     serializer_class = ExperienceSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
     def get_queryset(self):
         """
@@ -250,7 +299,10 @@ class ExperienceViewSet(viewsets.ModelViewSet):
             return Experience.objects.all()  # L'administrateur peut voir toutes les expériences
         else:
             # Retourner uniquement les expériences du candidat connecté
-            return Experience.objects.filter(candidat=self.request.user.candidat)
+            try:
+                return Experience.objects.filter(candidat=self.request.user.candidat)
+            except AttributeError:
+                return Experience.objects.none()
 
     def perform_create(self, serializer):
         """
@@ -260,28 +312,14 @@ class ExperienceViewSet(viewsets.ModelViewSet):
             raise ValidationError("Ce compte n'est pas un candidat.")
         serializer.save(candidat=self.request.user.candidat)
 
-    @action(detail=False, methods=['get'], permission_classes=[AllowAny, IsAdmin])
-    def experiences_par_region(self, request):
-        """
-        Permet à l'administrateur de voir les expériences des candidats de sa région.
-        """
-        if not request.user.is_staff:
-            return Response({"detail": "Accès refusé."}, status=status.HTTP_403_FORBIDDEN)
-        
-        region = request.user.recruteur.region  # Supposons que chaque recruteur a une région
-        candidats = Candidat.objects.filter(region=region)
-        experiences = Experience.objects.filter(candidat__in=candidats)
-        serializer = ExperienceSerializer(experiences, many=True)
-        return Response(serializer.data)
-
 
 class FormationViewSet(viewsets.ModelViewSet):
     """
-    Permet au candidat de gérer ses formations et permet à l'administrateur de consulter les formations des candidats de sa région.
+    Permet au candidat de gérer ses formations.
     """
-    queryset = Formation.objects.all()  # ✅ nécessaire pour le router
+    queryset = Formation.objects.all()
     serializer_class = FormationSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
     def get_queryset(self):
         """
@@ -290,7 +328,10 @@ class FormationViewSet(viewsets.ModelViewSet):
         if self.request.user.is_staff:
             return Formation.objects.all()
         else:
-            return Formation.objects.filter(candidat=self.request.user.candidat)
+            try:
+                return Formation.objects.filter(candidat=self.request.user.candidat)
+            except AttributeError:
+                return Formation.objects.none()
 
     def perform_create(self, serializer):
         """
@@ -300,58 +341,51 @@ class FormationViewSet(viewsets.ModelViewSet):
             raise ValidationError("Ce compte n'est pas un candidat.")
         serializer.save(candidat=self.request.user.candidat)
 
-    @action(detail=False, methods=['get'], permission_classes=[AllowAny])
-    def formations_par_region(self, request):
-        """
-        Permet à l'administrateur de voir les formations des candidats de sa région.
-        """
-        if not request.user.is_staff:
-            return Response({"detail": "Accès refusé."}, status=status.HTTP_403_FORBIDDEN)
-
-        region = request.user.admin.region
-        formations = Formation.objects.filter(candidat__region=region)
-        serializer = FormationSerializer(formations, many=True)
-        return Response(serializer.data)
-
-  
 
 class CandidatureViewSet(viewsets.ModelViewSet):
     """
-    Permet à l'administrateur de gérer les candidatures (changer le statut)
-    pour les offres dans sa région.
+    Vue pour gérer les candidatures.
     """
     queryset = Candidature.objects.all()
     serializer_class = CandidatureSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """
-        Filtre les candidatures en fonction de la région de l'administrateur
+        Filtre les candidatures:
+        - Admins: candidatures de leur région
+        - Candidats: leurs propres candidatures
         """
-        # Vérifie si l'utilisateur a un attribut 'admin'
         if hasattr(self.request.user, 'admin'):
-            admin = self.request.user.admin  # Récupère l'admin associé à l'utilisateur
-        else:
-            return Candidature.objects.none()  # Retourne un queryset vide si l'utilisateur n'est pas un admin
-
-        return Candidature.objects.filter(offre__region=admin.region)
+            admin = self.request.user.admin
+            return Candidature.objects.filter(offre__region=admin.region)
+        elif hasattr(self.request.user, 'candidat'):
+            return Candidature.objects.filter(candidat=self.request.user.candidat)
+        return Candidature.objects.none()
 
     def perform_create(self, serializer):
         """
-        Lorsqu'un candidat postule à une offre, cette méthode s'assure que la date de postulation 
-        est ajoutée automatiquement.
+        Lorsqu'un candidat postule, cette méthode s'assure que la candidature
+        est bien associée au candidat connecté.
         """
-        serializer.save()  # La sauvegarde crée la candidature avec la date de postulation automatiquement
+        if not hasattr(self.request.user, 'candidat'):
+            raise ValidationError("Seuls les candidats peuvent postuler à une offre.")
+        
+        candidat = self.request.user.candidat
+        offre = serializer.validated_data['offre']
+        
+        # Vérifier si le candidat a déjà postulé à cette offre
+        if Candidature.objects.filter(candidat=candidat, offre=offre).exists():
+            raise ValidationError("Vous avez déjà postulé à cette offre.")
+        
+        serializer.save(candidat=candidat, date_postulation=timezone.now())
 
     @action(detail=True, methods=['patch'], permission_classes=[IsAdmin])
     def changer_statut(self, request, pk=None):
         """
-        Permet à l'administrateur de changer le statut d'une candidature (en attente, accepté, refusé).
-        
-        Cette action est réservée aux administrateurs et ne peut affecter que les candidatures
-        des offres dans la même région que l'administrateur.
+        Permet à l'administrateur de changer le statut d'une candidature.
         """
-        candidature = self.get_object()  # Récupère la candidature
+        candidature = self.get_object()
         statut = request.data.get('statut')
 
         if statut not in ['en_attente', 'accepte', 'refuse']:
@@ -366,42 +400,39 @@ class CandidatureViewSet(viewsets.ModelViewSet):
         return Response({'detail': 'Statut mis à jour'}, status=status.HTTP_200_OK)
 
 
-
-class RegionViewSet(viewsets.ReadOnlyModelViewSet):  # Lecture seule
-    queryset = Region.objects.all()
-    serializer_class = RegionSerializer
-    permission_classes = [AllowAny]  #
-
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.contrib.auth import authenticate, login
-
-
-# djezzy_app/views.py
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib import messages
-from django.http import HttpResponse
-
 @api_view(['POST'])
 def login_view(request):
+    """
+    Vue de connexion pour les utilisateurs (candidats et admins).
+    """
     email = request.data.get('email')
     password = request.data.get('password')
+    
+    # Essaie d'authentifier avec l'email comme username
     user = authenticate(request, username=email, password=password)
 
     if user is not None:
         login(request, user)  # Enregistre la session
-        return Response({'message': 'Connecté avec succès'})
+        
+        # Détermine le type d'utilisateur
+        user_type = None
+        if hasattr(user, 'candidat'):
+            user_type = 'candidat'
+        elif hasattr(user, 'admin'):
+            user_type = 'admin'
+        
+        return Response({
+            'message': 'Connecté avec succès',
+            'user_id': user.id,
+            'user_type': user_type
+        })
     else:
         return Response({'error': 'Identifiants invalides'}, status=400)
 
 
-
-
-
 from .models import Entretien, Departement
 from .serializers import EntretienSerializer, DepartementSerializer
+
 class EntretienViewSet(viewsets.ModelViewSet):
     queryset = Entretien.objects.all()
     serializer_class = EntretienSerializer
@@ -410,13 +441,52 @@ class DepartementViewSet(viewsets.ModelViewSet):
     queryset = Departement.objects.all()
     serializer_class = DepartementSerializer
 
-    
-# djezzy_app/views.py
-from rest_framework.decorators import api_view, permission_classes
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])  # S'assurer que l'utilisateur est authentifié
+@permission_classes([IsAuthenticated])
 def liste_offres_api(request):
-    offres = Offre.objects.all()  # Récupérer toutes les offres
+    """
+    Récupère la liste des offres d'emploi disponibles.
+    Peut être filtrée par région si spécifié.
+    """
+    region_id = request.query_params.get('region')
+    
+    # Filtrer par région si spécifié
+    if region_id:
+        try:
+            offres = Offre.objects.filter(region_id=region_id)
+        except ValueError:
+            return Response({"detail": "ID de région invalide"}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        offres = Offre.objects.all()
+    
+    # Si l'utilisateur est un candidat, vérifier s'il a déjà postulé
+    candidatures_ids = []
+    if hasattr(request.user, 'candidat'):
+        candidatures = Candidature.objects.filter(candidat=request.user.candidat)
+        candidatures_ids = [c.offre.id_offre for c in candidatures]
+    
     serializer = OffreSerializer(offres, many=True)
-    return Response(serializer.data)
+    
+    # Ajouter l'information sur les candidatures aux données
+    data = serializer.data
+    for offre in data:
+        offre['a_postule'] = offre['id_offre'] in candidatures_ids
+    
+    return Response(data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def detail_candidature(request, id):
+    """
+    Récupère les détails d'une candidature spécifique.
+    """
+    try:
+        # Vérifier si la candidature appartient au candidat connecté
+        candidature = Candidature.objects.get(id=id, candidat=request.user.candidat)
+        serializer = CandidatureSerializer(candidature)
+        return Response(serializer.data)
+    except Candidature.DoesNotExist:
+        return Response({"detail": "Candidature non trouvée ou accès non autorisé."}, 
+                       status=status.HTTP_404_NOT_FOUND)

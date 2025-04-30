@@ -1,176 +1,191 @@
 from rest_framework import serializers
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 from .models import (
-    Candidat, Langue, Domaine, Specialite, Competence, Formation, 
-    Experience, Offre, Candidature, Region, Admin
+    Candidat, Langue, Domaine, Specialite, Competence,
+    Formation, Experience, Offre, Candidature, Region,
+    Entretien, Departement
 )
 
-
-class CandidatSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Candidat
-        fields = '__all__'
-
-    def create(self, validated_data):
-        """Créer un nouveau candidat."""
-        # Créer le candidat
-        candidat = Candidat.objects.create(**validated_data)
-        return candidat
-
-    def update(self, instance, validated_data):
-        """Mettre à jour un candidat existant."""
-        # Mettre à jour les informations du candidat
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-        return instance
-
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        read_only_fields = ['id']
 
 class LangueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Langue
-        fields = ['id', 'nom']
-
+        fields = '__all__'
 
 class DomaineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Domaine
-        fields = ['id', 'nom']
-
+        fields = '__all__'
 
 class SpecialiteSerializer(serializers.ModelSerializer):
-    domaine = DomaineSerializer()
-
     class Meta:
         model = Specialite
-        fields = ['id', 'nom', 'domaine']
-
+        fields = '__all__'
 
 class CompetenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competence
-        fields = ['id', 'nom']
-
-
-class FormationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Formation
-        fields = ['id', 'titre', 'etablissement', 'date_debut', 'date_fin', 'candidat']
-
-
-class ExperienceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Experience
-        fields = ['id', 'entreprise', 'poste', 'date_debut', 'date_fin', 'candidat']
-
-
-class OffreSerializer(serializers.ModelSerializer):
-    region = serializers.PrimaryKeyRelatedField(queryset=Region.objects.all(), required=False)
-
-    class Meta:
-        model = Offre
-        fields = ['id_offre', 'titre', 'description', 'date_creation', 'region', 'admin']
-
-    def create(self, validated_data):
-        """
-        Lors de la création d'une offre, on associe automatiquement la région de l'admin connecté.
-        """
-        user = self.context['request'].user
-        admin = user.admin  # L'admin associé à l'utilisateur
-        region = admin.region  # Récupère la région de l'admin
-        validated_data['region'] = region
-        return super().create(validated_data)
-
-
-from rest_framework import serializers
-from .models import Candidature, Candidat, Offre
-from .serializers import CandidatSerializer, OffreSerializer
-
-class CandidatureSerializer(serializers.ModelSerializer):
-    candidat = serializers.PrimaryKeyRelatedField(queryset=Candidat.objects.all())  # Accepte un ID pour le candidat
-    offre = serializers.PrimaryKeyRelatedField(queryset=Offre.objects.all())  # Accepte un ID pour l'offre
-    date_postulation = serializers.DateField(read_only=True)  # Date de postulation en lecture seule
-    statut = serializers.ChoiceField(choices=Candidature.STATUT_CHOICES)
-
-    class Meta:
-        model = Candidature
-        fields = ['id', 'candidat', 'offre', 'date_postulation', 'statut']
-
-    def update(self, instance, validated_data):
-        """
-        Mise à jour du statut d'une candidature. Validation du statut.
-        """
-        statut = validated_data.get('statut', instance.statut)
-        if statut not in ['en_attente', 'accepte', 'refuse']:
-            raise serializers.ValidationError('Statut invalide')
-        instance.statut = statut
-        instance.save()
-        return instance
-
-from .models import Admin
-class AdminSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Admin
-        fields = '__all__'  # Ou s
+        fields = '__all__'
 
 class RegionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
-        fields = ['id', 'nom']
+        fields = '__all__'
 
+class FormationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Formation
+        fields = '__all__'
+        read_only_fields = ['candidat']
 
-# Serializers pour l'inscription et la connexion
-# serializers.py
-from django.contrib.auth import get_user_model
-from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import Candidat
-class RegisterCandidatSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(write_only=True)
-    email = serializers.EmailField()
-    nom = serializers.CharField()
-    prenom = serializers.CharField()
-    sexe = serializers.CharField()
-    date_naissance = serializers.DateField()
-    telephone = serializers.CharField()
-    profession = serializers.CharField()
-    description = serializers.CharField()
+class ExperienceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Experience
+        fields = '__all__'
+        read_only_fields = ['candidat']
 
+class OffreSerializer(serializers.ModelSerializer):
+    a_postule = serializers.BooleanField(read_only=True, required=False)
+    
+    class Meta:
+        model = Offre
+        fields = '__all__'
+
+class CandidatureSerializer(serializers.ModelSerializer):
+    candidat_nom = serializers.SerializerMethodField()
+    offre_titre = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Candidature
+        fields = '__all__'
+        read_only_fields = ['candidat', 'date_postulation']
+    
+    def get_candidat_nom(self, obj):
+        # Renvoie le nom complet du candidat
+        if obj.candidat and obj.candidat.user:
+            return f"{obj.candidat.user.first_name} {obj.candidat.user.last_name}"
+        return "Non spécifié"
+    
+    def get_offre_titre(self, obj):
+        # Renvoie le titre de l'offre
+        if obj.offre:
+            return obj.offre.titre
+        return "Non spécifié"
+
+class CandidatSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    
+    class Meta:
+        model = Candidat
+        fields = '__all__'
+        read_only_fields = ['user']
+
+class CandidatDetailSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    formations = FormationSerializer(many=True, read_only=True)
+    experiences = ExperienceSerializer(many=True, read_only=True)
+    langues = LangueSerializer(many=True, read_only=True)
+    competences = CompetenceSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Candidat
+        fields = '__all__'
+        read_only_fields = ['user']
+
+class RegisterCandidatSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(write_only=True, required=True)
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    date_naissance = serializers.DateField(required=True)
+    
+    class Meta:
+        model = Candidat
+        fields = ['username', 'email', 'password', 'password2', 'first_name', 'last_name', 
+                 'date_naissance', 'telephone', 'adresse', 'cv']
+        extra_kwargs = {
+            'telephone': {'required': True},
+            'adresse': {'required': True},
+            'cv': {'required': False}
+        }
+    
+    def validate(self, attrs):
+        # Vérification que les mots de passe correspondent
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "Les mots de passe ne correspondent pas."})
+        
+        # Vérification que l'email n'est pas déjà utilisé
+        if User.objects.filter(email=attrs['email']).exists():
+            raise serializers.ValidationError({"email": "Un utilisateur avec cet email existe déjà."})
+        
+        # Vérification que le nom d'utilisateur n'est pas déjà utilisé
+        if User.objects.filter(username=attrs['username']).exists():
+            raise serializers.ValidationError({"username": "Ce nom d'utilisateur est déjà pris."})
+        
+        return attrs
+    
     def create(self, validated_data):
-        User = get_user_model()
-
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            password=validated_data['password'],
-            email=validated_data['email']
-        )
-
-        candidat = Candidat.objects.create(
-            user=user,
-            nom=validated_data['nom'],
-            prenom=validated_data['prenom'],
-            sexe=validated_data['sexe'],
-            email=validated_data['email'],
-            password=validated_data['password'],
-            date_naissance=validated_data['date_naissance'],
-            telephone=validated_data['telephone'],
-            profession=validated_data['profession'],
-            description=validated_data['description']
-        )
-
+        # Supprime le champ password2 car nous n'en avons pas besoin pour la création
+        password2 = validated_data.pop('password2')
+        
+        # Extraction des données spécifiques au User
+        user_data = {
+            'username': validated_data.pop('username'),
+            'email': validated_data.pop('email'),
+            'first_name': validated_data.pop('first_name'),
+            'last_name': validated_data.pop('last_name'),
+            'password': validated_data.pop('password')
+        }
+        
+        # Création de l'utilisateur
+        user = User.objects.create_user(**user_data)
+        
+        # Création du candidat associé
+        candidat = Candidat.objects.create(user=user, **validated_data)
+        
         return candidat
 
-
-
-
-class LoginCandidatSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)
-
-
-from rest_framework import serializers
-from .models import Entretien, Departement
+class UpdateCandidatProfileSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name', required=False)
+    last_name = serializers.CharField(source='user.last_name', required=False)
+    email = serializers.EmailField(source='user.email', required=False)
+    
+    class Meta:
+        model = Candidat
+        fields = ['first_name', 'last_name', 'email', 'telephone', 'adresse', 'cv', 'date_naissance']
+        read_only_fields = ['user']
+    
+    def update(self, instance, validated_data):
+        # Mise à jour des champs utilisateur si fournis
+        user_data = validated_data.pop('user', {})
+        user = instance.user
+        
+        if 'first_name' in user_data:
+            user.first_name = user_data['first_name']
+        if 'last_name' in user_data:
+            user.last_name = user_data['last_name']
+        if 'email' in user_data:
+            # Vérifier si l'email est déjà utilisé par un autre utilisateur
+            if User.objects.exclude(id=user.id).filter(email=user_data['email']).exists():
+                raise serializers.ValidationError({"email": "Un utilisateur avec cet email existe déjà."})
+            user.email = user_data['email']
+        
+        user.save()
+        
+        # Mise à jour des champs du candidat
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        
+        instance.save()
+        return instance
 
 class EntretienSerializer(serializers.ModelSerializer):
     class Meta:

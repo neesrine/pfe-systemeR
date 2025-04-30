@@ -1,5 +1,3 @@
-# permissions.py
-
 from rest_framework.permissions import BasePermission
 
 class IsAdmin(BasePermission):
@@ -8,8 +6,8 @@ class IsAdmin(BasePermission):
     """
 
     def has_permission(self, request, view):
-        # Vérifie si l'utilisateur est un administrateur
-        return request.user and request.user.is_staff  # Si l'utilisateur est un admin (is_staff = True)
+        # Vérifie si l'utilisateur est authentifié et est un administrateur
+        return request.user.is_authenticated and request.user.is_staff
 
 
 class IsCandidat(BasePermission):
@@ -17,5 +15,5 @@ class IsCandidat(BasePermission):
     Permission personnalisée qui permet uniquement aux candidats d'effectuer certaines actions.
     """
     def has_permission(self, request, view):
-        # Vérifie si l'utilisateur a un profil candidat
-        return request.user and hasattr(request.user, 'candidat')
+        # Vérifie si l'utilisateur est authentifié et a un profil candidat
+        return request.user.is_authenticated and hasattr(request.user, 'candidat')
