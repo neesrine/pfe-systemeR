@@ -172,49 +172,47 @@ class CandidatViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Candidat.DoesNotExist:
             return Response({"detail": "Profil de candidat non trouvé."}, status=status.HTTP_404_NOT_FOUND)
-
-@action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
-def postuler_offre(self, request):
-    """
-    Permet à un candidat de postuler à une offre d'emploi.
-    """
-    try:
-        # Vérifier si l'utilisateur est un candidat
-        candidat = request.user.candidat
-    except AttributeError:
-        return Response({"detail": "Aucun profil candidat trouvé pour cet utilisateur."}, status=status.HTTP_403_FORBIDDEN)
-
-    # Récupération de l'ID de l'offre depuis la requête
-    offre_id = request.data.get('offre')
-
-    # Vérifier si l'offre existe
-    try:
-        offre = Offre.objects.get(id_offre=offre_id)
-    except Offre.DoesNotExist:
-        return Response({"detail": "Offre introuvable"}, status=status.HTTP_404_NOT_FOUND)
-
-    # Vérifier si le candidat a déjà postulé à cette offre
-    if Candidature.objects.filter(candidat=candidat, offre=offre).exists():
-        return Response({"detail": "Vous avez déjà postulé à cette offre."}, status=status.HTTP_400_BAD_REQUEST)
-
-    # Création de la candidature
-    candidature = Candidature.objects.create(
-        candidat=candidat,
-        offre=offre,
-        date_postulation=timezone.now()
-    )
     
-    # Envoi d'un e-mail de confirmation au candidat
-    sujet = "Confirmation de votre candidature"
-    message = f"Bonjour {candidat.nom},\n\nVous avez postulé à l'offre '{offre.titre}'. Nous vous tiendrons informé de la suite du processus."
-    envoyer_email(sujet, message, candidat.email)
-{
-  "offre": 1
-}
-    return Response({
-        "detail": "Candidature réussie",
-        "candidature_id": candidature.id
-    }, status=status.HTTP_201_CREATED)    
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
+    def postuler_offre(self, request):
+        """
+        Permet à un candidat de postuler à une offre d'emploi.
+        """
+        try:
+            # Vérifier si l'utilisateur est un candidat
+            candidat = request.user.candidat
+        except AttributeError:
+            return Response({"detail": "Aucun profil candidat trouvé pour cet utilisateur."}, status=status.HTTP_403_FORBIDDEN)
+
+        # Récupération de l'ID de l'offre depuis la requête
+        offre_id = request.data.get('offre')
+
+        # Vérifier si l'offre existe
+        try:
+            offre = Offre.objects.get(id_offre=offre_id)
+        except Offre.DoesNotExist:
+            return Response({"detail": "Offre introuvable"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Vérifier si le candidat a déjà postulé à cette offre
+        if Candidature.objects.filter(candidat=candidat, offre=offre).exists():
+            return Response({"detail": "Vous avez déjà postulé à cette offre."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Création de la candidature
+        candidature = Candidature.objects.create(
+            candidat=candidat,
+            offre=offre,
+            date_postulation=timezone.now()
+        )
+        
+        # Envoi d'un e-mail de confirmation au candidat
+        sujet = "Confirmation de votre candidature"
+        message = f"Bonjour {candidat.nom},\n\nVous avez postulé à l'offre '{offre.titre}'. Nous vous tiendrons informé de la suite du processus."
+        envoyer_email(sujet, message, candidat.email)
+        
+        return Response({
+            "detail": "Candidature réussie",
+            "candidature_id": candidature.id
+        }, status=status.HTTP_201_CREATED)
 
 
 class OffreViewSet(viewsets.ModelViewSet):
@@ -227,25 +225,25 @@ class OffreViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]  # Autorisation de base: lecture pour tous
 
     def get_permissions(self):
-     """
+        """
         Retourne les offres de l'administrateur uniquement pour sa propre région.
         Si l'utilisateur est un administrateur, il peut gérer les offres de toutes les régions.
         """
-     if self.action in ['create', 'update', 'partial_update', 'destroy']:
-        return [IsAdmin()]
-     return [AllowAny()]
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [IsAdmin()]
+        return [AllowAny()]
 
     def get_queryset(self):
-     """
-     Retourne les offres de l'administrateur uniquement pour sa propre région.
-     Si l'utilisateur est un administrateur, il peut gérer les offres de toutes les régions.
-     """
-     if self.request.user.is_authenticated and self.request.user.is_staff:
-        return Offre.objects.all()
-     elif self.request.user.is_authenticated and hasattr(self.request.user, 'admin'):
-        admin = self.request.user.admin  # accès à l'objet Admin lié
-        return Offre.objects.filter(admin=admin, region=admin.region)
-     return Offre.objects.all()  # Les candidats peuvent voir toutes les offres 
+        """
+        Retourne les offres de l'administrateur uniquement pour sa propre région.
+        Si l'utilisateur est un administrateur, il peut gérer les offres de toutes les régions.
+        """
+        if self.request.user.is_authenticated and self.request.user.is_staff:
+            return Offre.objects.all()
+        elif self.request.user.is_authenticated and hasattr(self.request.user, 'admin'):
+            admin = self.request.user.admin  # accès à l'objet Admin lié
+            return Offre.objects.filter(admin=admin, region=admin.region)
+        return Offre.objects.all()  # Les candidats peuvent voir toutes les offres 
 
     @action(detail=True, methods=['get'], permission_classes=[IsAdmin])
     def candidats(self, request, pk=None):
@@ -418,6 +416,7 @@ class CandidatureViewSet(viewsets.ModelViewSet):
         candidature.statut = statut
         candidature.save()
         return Response({'detail': 'Statut mis à jour'}, status=status.HTTP_200_OK)
+        
     @action(detail=True, methods=['post'], permission_classes=[IsAdmin])
     def traiter_candidature(self, request, pk=None):
         """
@@ -431,7 +430,7 @@ class CandidatureViewSet(viewsets.ModelViewSet):
             candidature.status = 'acceptée'
             candidature.save()
             
-             # Envoyer un e-mail d'acceptation
+            # Envoyer un e-mail d'acceptation
             sujet = "Votre candidature a été acceptée"
             message = f"Bonjour {candidature.candidat.nom},\n\nVotre candidature a été acceptée. Veuillez vous présenter pour un entretien le {candidature.date_entretien}."
             envoyer_email(sujet, message, candidature.candidat.email)
@@ -443,7 +442,7 @@ class CandidatureViewSet(viewsets.ModelViewSet):
             candidature.status = 'refusée'
             candidature.save()
         
-             # Envoyer un e-mail de refus
+            # Envoyer un e-mail de refus
             sujet = "Votre candidature a été refusée"
             message = f"Bonjour {candidature.candidat.nom},\n\nNous sommes désolés de vous informer que votre candidature a été refusée."
             envoyer_email(sujet, message, candidature.candidat.email)
