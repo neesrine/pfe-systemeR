@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from .serializers import OffreSerializer, CandidatureSerializer
 from .permissions import IsAdmin 
-
+from django.core.mail import send_mail
+from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -106,6 +107,18 @@ class RegisterCandidatView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+def envoyer_email(sujet, message, destinataire):
+    """
+    Envoie un e-mail à un destinataire.
+    """
+    send_mail(
+        sujet,
+        message,
+        settings.EMAIL_HOST_USER,
+        [destinataire],
+        fail_silently=False,
+    )
+
 class CandidatViewSet(viewsets.ModelViewSet):
     """
     Permet aux candidats de gérer leur propre profil et d'accéder à leurs informations.
@@ -190,7 +203,14 @@ def postuler_offre(self, request):
         offre=offre,
         date_postulation=timezone.now()
     )
-
+    
+    # Envoi d'un e-mail de confirmation au candidat
+    sujet = "Confirmation de votre candidature"
+    message = f"Bonjour {candidat.nom},\n\nVous avez postulé à l'offre '{offre.titre}'. Nous vous tiendrons informé de la suite du processus."
+    envoyer_email(sujet, message, candidat.email)
+{
+  "offre": 1
+}
     return Response({
         "detail": "Candidature réussie",
         "candidature_id": candidature.id
@@ -398,7 +418,40 @@ class CandidatureViewSet(viewsets.ModelViewSet):
         candidature.statut = statut
         candidature.save()
         return Response({'detail': 'Statut mis à jour'}, status=status.HTTP_200_OK)
+    @action(detail=True, methods=['post'], permission_classes=[IsAdmin])
+    def traiter_candidature(self, request, pk=None):
+        """
+        Permet à l'administrateur de traiter une candidature (accepter ou refuser).
+        """
+        candidature = self.get_object()
+        action = request.data.get('action')  # "accepter" ou "refuser"
 
+        if action == 'accepter':
+            # Logique pour accepter la candidature
+            candidature.status = 'acceptée'
+            candidature.save()
+            
+             # Envoyer un e-mail d'acceptation
+            sujet = "Votre candidature a été acceptée"
+            message = f"Bonjour {candidature.candidat.nom},\n\nVotre candidature a été acceptée. Veuillez vous présenter pour un entretien le {candidature.date_entretien}."
+            envoyer_email(sujet, message, candidature.candidat.email)
+
+            return Response({"detail": "Candidature acceptée et e-mail envoyé."}, status=status.HTTP_200_OK)
+
+        elif action == 'refuser':
+            # Logique pour refuser la candidature
+            candidature.status = 'refusée'
+            candidature.save()
+        
+             # Envoyer un e-mail de refus
+            sujet = "Votre candidature a été refusée"
+            message = f"Bonjour {candidature.candidat.nom},\n\nNous sommes désolés de vous informer que votre candidature a été refusée."
+            envoyer_email(sujet, message, candidature.candidat.email)
+
+            return Response({"detail": "Candidature refusée et e-mail envoyé."}, status=status.HTTP_200_OK)
+
+        else:
+            return Response({"detail": "Action invalide."}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def login_view(request):

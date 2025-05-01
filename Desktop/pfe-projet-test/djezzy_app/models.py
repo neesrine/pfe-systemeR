@@ -104,7 +104,7 @@ class Candidature(models.Model):
     offre = models.ForeignKey('Offre', on_delete=models.CASCADE)
     date_postulation = models.DateField(auto_now_add=True)
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='en_attente')
-
+    date_entretien = models.DateTimeField(null=True, blank=True)  # Date d'entretien pour les candidats acceptés
 
 # Modèle Formation
 class Formation(models.Model):

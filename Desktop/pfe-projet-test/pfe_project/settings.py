@@ -134,3 +134,10 @@ REST_FRAMEWORK = {
     ],
 }
 
+##smtp
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Exemple pour Gmail
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'votre_email@gmail.com'  # Remplacez par votre adresse e-mail
+EMAIL_HOST_PASSWORD = 'votre_mot_de_passe'  # Remplacez par votre mot de passe
