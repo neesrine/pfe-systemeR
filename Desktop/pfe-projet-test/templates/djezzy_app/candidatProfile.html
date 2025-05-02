@@ -1,0 +1,276 @@
+{% load static %}
+{% extends 'djezzy_app/base1.html' %}
+{% block contentCandidat%}
+<link rel="stylesheet"href="{% static 'css/candidatP.css'%}"
+<div class="container">
+    <div class="profile-container">
+        <div class="profile-sidebar">
+            <div class="profile-photo">
+                <img id="currentProfilePhoto" src="profile-photo.jpg" alt="Profile Photo">
+            </div>
+            <button class="modify-profile-btn" onclick="openModal()">Modifier le profil</button>
+            
+            <div class="contact">
+                <h3>Contacts</h3>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span id="currentPhone">0558157393</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span id="currentEmail">mne6141@gmail.com</span>
+                </div>
+            </div>
+            
+            <div class="languages">
+                <h3>Langues</h3>
+                <div class="language-item">
+                    <span>Arabe:</span>
+                    <span id="currentArabic">B2</span>
+                </div>
+                <div class="language-item">
+                    <span>Français:</span>
+                    <span id="currentFrench">B1</span>
+                </div>
+                <div class="language-item">
+                    <span>Anglais:</span>
+                    <span id="currentEnglish">C1</span>
+                </div>
+            </div>
+
+            <div class="skills">
+                <h3>Compétences</h3>
+                <div class="skills-container" id="currentSkills">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">HTML/CSS</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">SQL</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-main">
+            <div class="profile-header">
+                <div>
+                    <h2 class="profile-name" id="currentName">CHERIF Manel</h2>
+                    <div class="profile-job" id="currentJob">Développeuse Full Stack</div>
+                    <p class="profile-description" id="currentDescription">
+                        Développeuse passionnée avec 3 ans d'expérience dans la création d'applications web modernes. 
+                        Spécialisée en JavaScript et frameworks frontend, avec une solide expérience backend.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Personal Information Section -->
+            <h3 class="section-title">Informations Personnelles</h3>
+            <div class="profile-info">
+                <div class="profile-info-item">
+                    <label>Nom</label>
+                    <span class="value" id="currentLastName">CHERIF</span>
+                </div>
+                <div class="profile-info-item">
+                    <label>Prénom</label>
+                    <span class="value" id="currentFirstName">Manel</span>
+                </div>
+                <div class="profile-info-item">
+                    <label>Adresse</label>
+                    <span class="value" id="currentAddress">Boumerdès, Algérie</span>
+                </div>
+                <div class="profile-info-item">
+                    <label>Date de naissance</label>
+                    <span class="value" id="currentBirthDate">09/12/2000</span>
+                </div>
+            </div>
+
+            <!-- Formation Section -->
+            <h3 class="section-title">Formation Académique</h3>
+            <div class="formation-item">
+                <div class="formation-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="formation-details">
+                    <h4>Master en Ingénierie Logicielle</h4>
+                    <p>Université USTHB, Alger</p>
+                    <p>2023 - 2024</p>
+                </div>
+            </div>
+            <div class="formation-item">
+                <div class="formation-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="formation-details">
+                    <h4>Licence en Informatique</h4>
+                    <p>Université USTHB, Alger</p>
+                    <p>2020 - 2021</p>
+                </div>
+            </div>
+
+            <!-- Experience Section -->
+            <h3 class="section-title">Expérience Professionnelle</h3>
+            <div class="experience-item">
+                <h3 class="experience-title">Développeuse Full Stack</h3>
+                <div class="experience-company">
+                    <div class="company-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <span class="company-name">Djezzy</span>
+                </div>
+                <div class="experience-date">
+                    <i class="fas fa-calendar-alt date-icon"></i>
+                    <span>Janvier 2024 - Présent</span>
+                </div>
+                <p style="margin-top: 10px; color: #555;">
+                    Développement et maintenance d'applications web avec React.js et Node.js.
+                    Collaboration avec l'équipe UX pour implémenter des interfaces utilisateur intuitives.
+                </p>
+            </div>
+            <div class="experience-item">
+                <h3 class="experience-title">Développeuse Frontend</h3>
+                <div class="experience-company">
+                    <div class="company-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <span class="company-name">Entreprise XYZ</span>
+                </div>
+                <div class="experience-date">
+                    <i class="fas fa-calendar-alt date-icon"></i>
+                    <span>Juillet 2020 - Décembre 2021</span>
+                </div>
+                <p style="margin-top: 10px; color: #555;">
+                    Développement d'interfaces utilisateur avec React et intégration avec les API backend.
+                    Participation aux revues de code et aux sessions de brainstorming technique.
+                </p>
+            </div>
+
+            <!-- Skills Section -->
+            <h3 class="section-title">Compétences Techniques</h3>
+            <div class="skills-container" style="margin-top: 15px;">
+                <span class="skill-tag">JavaScript (ES6+)</span>
+                <span class="skill-tag">React.js</span>
+                <span class="skill-tag">Node.js</span>
+                <span class="skill-tag">HTML5/CSS3</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Django</span>
+                <span class="skill-tag">SQL/NoSQL</span>
+                <span class="skill-tag">Git</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">API REST</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Profile Editing -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Modifier le Profil</h3>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+        </div>
+        
+        <form id="profileForm">
+            <div class="photo-upload">
+                <div class="photo-preview">
+                    <img id="photoPreview" src="profile-photo.jpg" alt="Photo de profil">
+                </div>
+                <div>
+                    <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                    <label for="photoUpload" class="upload-btn">Changer la photo</label>
+                    <p style="font-size: 0.8rem; color: #666;">Formats acceptés: JPG, PNG (max. 2MB)</p>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="lastName">Nom</label>
+                    <input type="text" id="lastName" value="CHERIF">
+                </div>
+                <div class="form-group">
+                    <label for="firstName">Prénom</label>
+                    <input type="text" id="firstName" value="Manel">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="birthDate">Date de naissance</label>
+                    <input type="date" id="birthDate" value="2000-12-09">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone" value="0558157393">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="mne6141@gmail.com">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Adresse</label>
+                <input type="text" id="address" value="Boumerdès, Algérie">
+            </div>
+
+            <div class="form-group">
+                <label for="jobTitle">Poste actuel</label>
+                <input type="text" id="jobTitle" value="Développeuse Full Stack">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" rows="4">Développeuse passionnée avec 3 ans d'expérience dans la création d'applications web modernes. Spécialisée en JavaScript et frameworks frontend, avec une solide expérience backend.</textarea>
+            </div>
+
+            <h4 style="margin: 25px 0 15px; color: #da0808;">Langues</h4>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="arabic">Arabe</label>
+                    <select id="arabic">
+                        <option value="A1">A1 - Débutant</option>
+                        <option value="A2">A2 - Élémentaire</option>
+                        <option value="B1">B1 - Intermédiaire</option>
+                        <option value="B2" selected>B2 - Intermédiaire supérieur</option>
+                        <option value="C1">C1 - Avancé</option>
+                        <option value="C2">C2 - Maîtrise</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="french">Français</label>
+                    <select id="french">
+                        <option value="A1">A1 - Débutant</option>
+                        <option value="A2">A2 - Élémentaire</option>
+                        <option value="B1" selected>B1 - Intermédiaire</option>
+                        <option value="B2">B2 - Intermédiaire supérieur</option>
+                        <option value="C1">C1 - Avancé</option>
+                        <option value="C2">C2 - Maîtrise</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="english">Anglais</label>
+                    <select id="english">
+                        <option value="A1">A1 - Débutant</option>
+                        <option value="A2">A2 - Élémentaire</option>
+                        <option value="B1">B1 - Intermédiaire</option>
+                        <option value="B2">B2 - Intermédiaire supérieur</option>
+                        <option value="C1" selected>C1 - Avancé</option>
+                        <option value="C2">C2 - Maîtrise</option>
+                    </select>
+                </div>
+            </div>
+
+            <h4 style="margin: 25px 0 15px; color: #da0808;">Compétences</h4>
+            <div class="form-group">
+                <label>Ajouter/Modifier les compétences (séparées par des virgules)</label>
+                <textarea id="skills" rows="3">JavaScript (ES6+), React.js, Node.js, HTML5/CSS3, Python, Django, SQL/NoSQL, Git, Docker, API REST</textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" onclick="closeModal()">Annuler</button>
+                <button type="button" class="btn btn-save" onclick="saveProfile()">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

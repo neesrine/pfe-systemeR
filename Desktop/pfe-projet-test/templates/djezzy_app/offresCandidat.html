@@ -1,0 +1,71 @@
+{% load static %}
+{% extends 'djezzy_app/base1.html' %}
+{% block contentCandidat%}
+<link rel="stylesheet"href="{% static 'css/offres.css'%}"
+<div class="job-buttons">
+    <button onclick="viewAllJobs()" class="active">Offres d'emplois</button>
+    <button onclick="viewBestOffers()">Les meilleurs offres pour vous</button>
+</div>
+
+<!-- Barre de recherche -->
+<div class="search-jobs">
+<input type="text" id="searchInput" placeholder="Rechercher une offre...">
+<button onclick="searchOffers()">Rechercher</button>
+</div>
+
+<!-- Section des offres -->
+<section class="offres">
+<div class="container">
+    <h1>Toutes les offres d'emploi</h1>
+    <div class="offres-grid" id="offresGrid">
+        <!-- Offre 1 -->
+        <div class="offre-card" >
+            <h2>Responsable des Ressources Humaines</h2>
+            <p>Poste basé à Alger. Gestion des talents et développement des compétences.</p>
+            <a href="#" class="details-btn">Voir détails</a>
+            <a href="#" class="apply-btn">Postuler</a>
+        </div>
+
+        <!-- Offre 2 -->
+        <div class="offre-card" data-title="Développeur Full Stack">
+            <h2>Développeur Full Stack</h2>
+            <p>Poste en télétravail. Maîtrise de JavaScript, React et Node.js requise.</p>
+            <a href="#" class="details-btn">Voir détails</a>
+            <a href="#" class="apply-btn">Postuler</a>
+        </div>
+
+        <!-- Offre 3 -->
+        <div class="offre-card" data-title="Data Scientist">
+            <h2>Data Scientist</h2>
+            <p>Poste basé à Oran. Expérience en Machine Learning et Python nécessaire.</p>
+            <a href="#" class="details-btn">Voir détails</a>
+            <a href="#" class="apply-btn">Postuler</a>
+        </div>
+
+        <!-- Offre 4 -->
+        <div class="offre-card" data-title="DevOps Engineer">
+            <h2>DevOps Engineer</h2>
+            <p>Poste basé à Constantine. Connaissance de Docker et Kubernetes requise.</p>
+            <a href="#" class="details-btn">Voir détails</a>
+            <a href="#" class="apply-btn">Postuler</a>
+        </div>
+
+        <!-- Offre 5 -->
+        <div class="offre-card" data-title="Comptable Senior">
+            <h2>Comptable Senior</h2>
+            <p>Poste basé à Alger. Expérience en gestion financière et comptabilité.</p>
+            <a href="#" class="details-btn">Voir détails</a>
+            <a href="#" class="apply-btn">Postuler</a>
+        </div>
+
+        <!-- Offre 6 -->
+        <div class="offre-card" data-title="UX/UI Designer">
+            <h2>UX/UI Designer</h2>
+            <p>Poste en télétravail. Maîtrise de Figma et Adobe XD requise.</p>
+            <a href="#" class="details-btn">Voir détails</a>
+            <a href="#" class="apply-btn">Postuler</a>
+        </div>
+    </div>
+</div>
+</section>
+    {% endblock %}

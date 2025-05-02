@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - Djezzy Recrutement</title>
+    <link rel="stylesheet"href="{% static 'css/styleC.css'%}">
+</head>
+<body>
+    <header class="header">
+        <img src="{% static 'img/Logo_Djezzy_2015-1.png' %}" alt="Djezzy Logo" class="logo">
+        <div class="header-menu">
+          <a href="offresCandidat.html">OFFRE D'EMPLOI</a>
+          <a href="mesCandidat.html" >MES CANDIDATURES</a>
+          <div class="user-icon">
+            <a href="candidatProfil.html"><i class="fas fa-user"></i></a>
+          </div>
+        </div>
+      </header>    
+      {% block contentCandidat%}
+      {% endblock %}
+      <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>À propos</h3>
+                <p>Djezzy Recrutement vous aide à trouver l'emploi de vos rêves grâce à nos offres adaptées à votre profil.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liens utiles</h3>
+                <ul>
+                    <li><a href="home.html">Accueil</a></li>
+                    <li><a href="offres_d'emploi.html">Offres d'emploi</a></li>
+                    <li><a href="#">Contact</a></li>
+                    
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Suivez-nous</h3>
+                <div class="footer-social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 Djezzy Recrutement. Tous droits réservés.
+        </div>
+    </footer>
+      <script src="{% static 'js/mainC.js' %}"></script>
+    </body>
+    </html>     

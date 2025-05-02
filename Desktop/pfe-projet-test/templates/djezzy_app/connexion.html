@@ -1,0 +1,325 @@
+{% load static %}
+{% extends 'djezzy_app/base.html' %}
+
+{% block content %}
+<link rel="stylesheet"href="{% static 'css/connexion.css'%}"
+
+<section class="auth-section">
+    <!-- Carte de connexion -->
+    <div class="auth-card login-card" id="login-card">
+        <div class="auth-header">
+            <h2>Connexion</h2>
+            <p>Accédez à votre compte.</p>
+        </div>
+        <form>
+            <div class="input-group">
+                <label>Email</label>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Entrez votre email">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Mot de passe</label>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Entrez votre mot de passe">
+                </div>
+            </div>
+            <div class="forgot-password">
+                <a href="#">Mot de passe oublié ?</a>
+            </div>
+            <button type="button" class="auth-btn">Se connecter</button>
+        </form>
+        <p class="switch-form">Pas encore inscrit ? <a href="#" id="show-register" onclick="toggleAuth('register', event)">Créer un compte</a></p>
+    </div>
+    
+    <!-- Carte d'inscription avec les nouveaux champs -->
+    <div class="auth-card register-card" id="register-card" style="display: none;">
+        <div class="auth-header">
+            <h2>Inscription</h2>
+            <p>Créez un compte pour postuler.</p>
+        </div>
+        <form>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Nom</label>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Entrez votre nom">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Prénom</label>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Entrez votre prénom">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Email</label>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Entrez votre email">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Téléphone</label>
+                    <div class="input-field">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" placeholder="Entrez votre numéro de téléphone">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Date de naissance</label>
+                    <div class="input-field">
+                        <i class="fas fa-calendar"></i>
+                        <input type="date">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Sexe</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="homme" name="sexe" value="homme">
+                            <label for="homme">Homme</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="femme" name="sexe" value="femme">
+                            <label for="femme">Femme</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Region</label>
+                    <div class="input-field">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <select>
+                            <option value="">Sélectionnez votre Region</option>
+                            <option value="Este">Este</option>
+                            <option value="Ouest">Ouest</option>
+                            <option value="Nord">Nord</option>
+                            <option value="Sud">Sud</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Profession</label>
+                    <div class="input-field">
+                        <i class="fas fa-briefcase"></i>
+                        <input type="text" placeholder="Entrez votre profession">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Mot de passe</label>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Créez un mot de passe">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Confirmer le mot de passe</label>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Confirmez votre mot de passe">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms">
+                <label for="terms">J'accepte les termes et conditions</label>
+            </div>
+            
+            <button type="button" class="auth-btn" onclick="toggleAuth('formation', event)">Suivant</button>
+        </form>
+        <p class="switch-form">Déjà un compte ? <a href="#" id="show-login" onclick="toggleAuth('login', event)">Se connecter</a></p>
+    </div>
+
+    <!-- Carte de formation -->
+    <div class="auth-card formation-card" id="formation-card" style="display: none;">
+        <div class="auth-header">
+            <h2>Formation</h2> 
+        </div>
+        <form> 
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Établissement</label>  
+                    <div class="input-field">
+                        <i class="fas fa-building"></i> 
+                        <input type="text" placeholder="Établissement">
+                    </div>
+                </div>  
+                <div class="input-group">
+                    <label>Niveau d'étude</label> 
+                    <div class="input-field"> 
+                        <i class="fas fa-university"></i> 
+                        <input type="text" placeholder="Niveau d'étude">
+                    </div>
+                </div> 
+            </div>      
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Domaine</label>  
+                    <div class="input-field">
+                        <i class="fas fa-briefcase"></i> 
+                        <input type="text" placeholder="Domaine">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Spécialité</label>  
+                    <div class="input-field">
+                        <i class="fas fa-briefcase"></i>       
+                        <input type="text" placeholder="Spécialité" required>
+                    </div>
+                </div>   
+            </div> 
+            <div class="form-row">    
+                <div class="input-group">                          
+                    <label>Début</label>
+                    <div class="input-field">
+                        <i class="fas fa-calendar"></i>  
+                        <input type="date" id="startDate">
+                    </div>
+                </div>   
+                <div class="input-group">                        
+                    <label>Fin</label>    
+                    <div class="input-field">             
+                        <i class="fas fa-calendar"></i>  
+                        <input type="date" id="endDate">
+                    </div>
+                </div>  
+            </div>   
+            <div class="checkbox-group">
+                <input type="checkbox" id="enCours">
+                <label for="enCours">En cours</label>
+            </div>
+            
+            <div class="button-group">
+                <button type="button" class="btn" onclick="toggleAuth('register', event)">Précédent</button>
+                <button type="button" class="auth-btn" onclick="toggleAuth('experience', event)">Suivant</button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Carte d'expérience -->
+    <div class="auth-card exper-card" id="exper-card" style="display: none;">
+        <div class="auth-header">
+            <h2>Expérience</h2> 
+        </div>
+        <form> 
+            <div class="form-row">   
+                <div class="input-group"> 
+                    <label>Poste</label>
+                    <div class="input-field">
+                        <i class="fas fa-building"></i>  
+                        <input type="text" placeholder="Poste occupé">
+                    </div>
+                </div>  
+                <div class="input-group">                          
+                    <label>Nom de l'entreprise</label>
+                    <div class="input-field">
+                        <i class="fas fa-building"></i>  
+                        <input type="text" placeholder="Nom de l'entreprise">            
+                    </div>
+                </div>  
+            </div>
+            <div class="form-row">
+                <div class="input-group">                          
+                    <label>Domaine</label>
+                    <div class="input-field">
+                        <i class="fas fa-briefcase"></i>  
+                        <input type="text" placeholder="Domaine d'activité">
+                    </div>
+                </div> 
+            </div>    
+            <div class="form-row">
+                <div class="input-group">                          
+                    <label>Début</label>
+                    <div class="input-field">
+                        <i class="fas fa-calendar"></i>  
+                        <input type="date"> 
+                    </div>
+                </div>  
+                <div class="input-group">                          
+                    <label>Fin</label> 
+                    <div class="input-field">
+                        <i class="fas fa-calendar"></i>  
+                        <input type="date"> 
+                    </div>
+                </div> 
+            </div>
+            
+            <div class="button-group">
+                <button type="button" class="btn" onclick="toggleAuth('formation', event)">Précédent</button>
+                <button type="button" class="auth-btn" onclick="toggleAuth('competences', event)">Suivant</button>
+            </div>
+        </form>                   
+    </div>
+    
+    <!-- Carte de compétences -->
+    <div class="auth-card compet-card" id="competence-card" style="display: none;">
+        <div class="auth-header">
+            <h2>Compétences</h2> 
+        </div>
+        <form> 
+            <h3>Langue</h3>
+            <p>Français</p>
+            <div class="button-container">
+                <button type="button" class="c1">A1</button>
+                <button type="button" class="c1">A2</button>
+                <button type="button" class="c1">B1</button>
+                <button type="button" class="c1">B2</button>
+                <button type="button" class="c1">C1</button>
+                <button type="button" class="c1">C2</button>
+            </div>
+            
+            <p>Anglais</p>
+            <div class="button-container">
+                <button type="button" class="c1">A1</button>
+                <button type="button" class="c1">A2</button>
+                <button type="button" class="c1">B1</button>
+                <button type="button" class="c1">B2</button>
+                <button type="button" class="c1">C1</button>
+                <button type="button" class="c1">C2</button>
+            </div> 
+            
+            <p>Arabe</p>
+            <div class="button-container">
+                <button type="button" class="c1">A1</button>
+                <button type="button" class="c1">A2</button>
+                <button type="button" class="c1">B1</button>
+                <button type="button" class="c1">B2</button>
+                <button type="button" class="c1">C1</button>
+                <button type="button" class="c1">C2</button>
+            </div>  
+            
+            <h3>Compétences</h3>
+<div class="input-group">
+    <input type="text" placeholder="Compétences">
+    <button type="button" class="c1" onclick="ajouterCompetence()">Ajouter</button>
+</div>
+<div id="competences-list" class="competences-list">
+    <!-- Les compétences ajoutées apparaîtront ici -->
+</div>
+            
+            <div class="button-group">
+                <button type="button" class="btn" onclick="toggleAuth('experience', event)">Précédent</button>
+                <button type="button" class="auth-btn">Envoyer</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
