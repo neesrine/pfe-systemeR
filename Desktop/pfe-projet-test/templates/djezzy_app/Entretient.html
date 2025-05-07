@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+{% load static %}
+{% extends 'djezzy_app/base2.html' %}
+{% block contentCandidat%}
+ <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -358,45 +361,8 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="brand">
-                <img src="{% static 'img/Logo_Djezzy_2015-1.png' %}" alt="Logo">
-                <div class="brand-text">Djezzy Recrutement</div>
-            </div>
-            
-            <nav class="sidebar-menu">
-                <div class="menu-title">Général</div>
-                <a href="tableauDeBord.html" class="menu-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Tableau de bord</span>
-                </a>
-                <a href="ListeDesOffres.html" class="menu-item">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>Annonces</span>
-                </a>
-                <a href="candidats.html" class="menu-item">
-                    <i class="fas fa-user-tie"></i>
-                    <span>Candidats</span>
-                </a>
-                <a href="Entretient.html" class="menu-item active">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>Entretiens</span>
-                </a>
-                
-                <div class="menu-title">Compte</div>
-                <a href="adminProfile.html" class="menu-item">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Mon profil</span>
-                </a>
-                <a href="#" class="menu-item">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Déconnexion</span>
-                </a>
-            </nav>
-        </aside>
-
+    
+        
         <!-- Main Content -->
         <div class="main-content">
             <div class="header">
@@ -438,256 +404,49 @@
             </div>
 
             <!-- Interview Cards -->
-            <div class="interview-cards">
-                <!-- Card 1 -->
-                <div class="interview-card">
-                    <div class="interview-card-header">
-                        <div class="interview-date">17 Avril, 10:00</div>
-                        <div class="interview-status">Aujourd'hui</div>
-                    </div>
-                    <div class="interview-card-content">
-                        <div class="candidate-info">
-                            <div class="candidate-avatar">KL</div>
-                            <div class="candidate-details">
-                                <div class="name">Karim Lahlou</div>
-                                <div class="position">Développeur Full Stack</div>
-                            </div>
-                        </div>
-                        <div class="interview-details">
-                            <div class="interview-detail">
-                                <div class="detail-label">Type:</div>
-                                <div>Entretien vidéo</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Recruteur:</div>
-                                <div>Thomas Martin</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Durée:</div>
-                                <div>45 minutes</div>
-                            </div>
-                        </div>
-                        <div class="interview-actions">
-                            <button class="btn-interview-action btn-primary">
-                                <i class="fas fa-video"></i>
-                                <span>Démarrer</span>
-                            </button>
-                            <button class="btn-interview-action btn-secondary">
-                                <i class="fas fa-pen"></i>
-                                <span>Modifier</span>
-                            </button>
-                        </div>
+           <div class="interview-cards">
+    {% for entretien in entretiens %}
+        <div class="interview-card">
+            <div class="interview-card-header">
+                <div class="interview-date">{{ entretien.date|date:"d F, H:i" }}</div>
+                <div class="interview-status">{{ entretien.get_statut_display }}</div>
+            </div>
+            <div class="interview-card-content">
+                <div class="candidate-info">
+                    <div class="candidate-avatar">{{ entretien.candidat_initiales }}</div>
+                    <div class="candidate-details">
+                        <div class="name">{{ entretien.candidat_nom }}</div>
+                        <div class="position">{{ entretien.candidat_poste }}</div>
                     </div>
                 </div>
-
-                <!-- Card 2 -->
-                <div class="interview-card">
-                    <div class="interview-card-header">
-                        <div class="interview-date">17 Avril, 14:30</div>
-                        <div class="interview-status">Aujourd'hui</div>
+                <div class="interview-details">
+                    <div class="interview-detail">
+                        <div class="detail-label">Type:</div>
+                        <div>{{ entretien.type_entretien }}</div>
                     </div>
-                    <div class="interview-card-content">
-                        <div class="candidate-info">
-                            <div class="candidate-avatar">SB</div>
-                            <div class="candidate-details">
-                                <div class="name">Sara Benali</div>
-                                <div class="position">Chef de Projet Digital</div>
-                            </div>
-                        </div>
-                        <div class="interview-details">
-                            <div class="interview-detail">
-                                <div class="detail-label">Type:</div>
-                                <div>Entretien en présentiel</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Recruteur:</div>
-                                <div>Sophie Dubois</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Durée:</div>
-                                <div>60 minutes</div>
-                            </div>
-                        </div>
-                        <div class="interview-actions">
-                            <button class="btn-interview-action btn-primary">
-                                <i class="fas fa-check"></i>
-                                <span>Confirmer</span>
-                            </button>
-                            <button class="btn-interview-action btn-secondary">
-                                <i class="fas fa-pen"></i>
-                                <span>Modifier</span>
-                            </button>
-                        </div>
+                    <div class="interview-detail">
+                        <div class="detail-label">Recruteur:</div>
+                        <div>{{ entretien.recruteur_nom }}</div>
+                    </div>
+                    <div class="interview-detail">
+                        <div class="detail-label">Durée:</div>
+                        <div>{{ entretien.duree }} minutes</div>
                     </div>
                 </div>
-
-                <!-- Card 3 -->
-                <div class="interview-card">
-                    <div class="interview-card-header">
-                        <div class="interview-date">17 Avril, 16:00</div>
-                        <div class="interview-status">Aujourd'hui</div>
-                    </div>
-                    <div class="interview-card-content">
-                        <div class="candidate-info">
-                            <div class="candidate-avatar">YM</div>
-                            <div class="candidate-details">
-                                <div class="name">Yacine Mehdi</div>
-                                <div class="position">Ingénieur Réseau</div>
-                            </div>
-                        </div>
-                        <div class="interview-details">
-                            <div class="interview-detail">
-                                <div class="detail-label">Type:</div>
-                                <div>Entretien téléphonique</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Recruteur:</div>
-                                <div>Jean Dupont</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Durée:</div>
-                                <div>30 minutes</div>
-                            </div>
-                        </div>
-                        <div class="interview-actions">
-                            <button class="btn-interview-action btn-primary">
-                                <i class="fas fa-phone"></i>
-                                <span>Appeler</span>
-                            </button>
-                            <button class="btn-interview-action btn-secondary">
-                                <i class="fas fa-pen"></i>
-                                <span>Modifier</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="interview-card">
-                    <div class="interview-card-header">
-                        <div class="interview-date">18 Avril, 09:30</div>
-                        <div class="interview-status">Demain</div>
-                    </div>
-                    <div class="interview-card-content">
-                        <div class="candidate-info">
-                            <div class="candidate-avatar">NA</div>
-                            <div class="candidate-details">
-                                <div class="name">Naima Amrani</div>
-                                <div class="position">Chef de Projet Digital</div>
-                            </div>
-                        </div>
-                        <div class="interview-details">
-                            <div class="interview-detail">
-                                <div class="detail-label">Type:</div>
-                                <div>Entretien vidéo</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Recruteur:</div>
-                                <div>Sophie Dubois</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Durée:</div>
-                                <div>45 minutes</div>
-                            </div>
-                        </div>
-                        <div class="interview-actions">
-                            <button class="btn-interview-action btn-primary">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>Rappel</span>
-                            </button>
-                            <button class="btn-interview-action btn-secondary">
-                                <i class="fas fa-pen"></i>
-                                <span>Modifier</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 5 -->
-                <div class="interview-card">
-                    <div class="interview-card-header">
-                        <div class="interview-date">18 Avril, 11:30</div>
-                        <div class="interview-status">Demain</div>
-                    </div>
-                    <div class="interview-card-content">
-                        <div class="candidate-info">
-                            <div class="candidate-avatar">MH</div>
-                            <div class="candidate-details">
-                                <div class="name">Mohammed Hamdi</div>
-                                <div class="position">Responsable Commercial</div>
-                            </div>
-                        </div>
-                        <div class="interview-details">
-                            <div class="interview-detail">
-                                <div class="detail-label">Type:</div>
-                                <div>Entretien en présentiel</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Recruteur:</div>
-                                <div>Jean Dupont</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Durée:</div>
-                                <div>60 minutes</div>
-                            </div>
-                        </div>
-                        <div class="interview-actions">
-                            <button class="btn-interview-action btn-primary">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>Rappel</span>
-                            </button>
-                            <button class="btn-interview-action btn-secondary">
-                                <i class="fas fa-pen"></i>
-                                <span>Modifier</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 6 -->
-                <div class="interview-card">
-                    <div class="interview-card-header">
-                        <div class="interview-date">19 Avril, 10:00</div>
-                        <div class="interview-status">Vendredi</div>
-                    </div>
-                    <div class="interview-card-content">
-                        <div class="candidate-info">
-                            <div class="candidate-avatar">LS</div>
-                            <div class="candidate-details">
-                                <div class="name">Leila Salhi</div>
-                                <div class="position">Développeur Full Stack</div>
-                            </div>
-                        </div>
-                        <div class="interview-details">
-                            <div class="interview-detail">
-                                <div class="detail-label">Type:</div>
-                                <div>Entretien vidéo</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Recruteur:</div>
-                                <div>Thomas Martin</div>
-                            </div>
-                            <div class="interview-detail">
-                                <div class="detail-label">Durée:</div>
-                                <div>45 minutes</div>
-                            </div>
-                        </div>
-                        <div class="interview-actions">
-                            <button class="btn-interview-action btn-primary">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>Rappel</span>
-                            </button>
-                            <button class="btn-interview-action btn-secondary">
-                                <i class="fas fa-pen"></i>
-                                <span>Modifier</span>
-                            </button>
-                        </div>
-                    </div>
+                <div class="interview-actions">
+                    <button class="btn-interview-action btn-primary">
+                        <i class="fas fa-{{ entretien.get_icone }}"></i>
+                        <span>{{ entretien.get_action_label }}</span>
+                    </button>
+                    <button class="btn-interview-action btn-secondary">
+                        <i class="fas fa-pen"></i>
+                        <span>Modifier</span>
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+    {% endfor %}
+</div>
+        </div>
 
-    <script src="{% static 'js/mainA.js' %}"></script>
-</body>
-</html>
+    {% endblock %}

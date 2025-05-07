@@ -18,7 +18,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import (
     Candidat, Langue, Domaine, Specialite, Competence,
-    Formation, Experience, Offre, Candidature, Region
+    Formation, Experience, Offre, Candidature, Region,Entretien
 )
 from .serializers import (
     CandidatSerializer, CandidatDetailSerializer,
@@ -32,7 +32,7 @@ from .serializers import (
     CandidatureSerializer,
     RegionSerializer,
     RegisterCandidatSerializer,  # Assurez-vous que ce serializer existe
-    UpdateCandidatProfileSerializer  # Créez ce serializer dans serializers.py
+    # UpdateCandidatProfileSerializer  # Créez ce serializer dans serializers.py
 )
 
 
@@ -43,6 +43,28 @@ def home(request):
     return render(request, 'djezzy_app/home.html')
 
 from rest_framework import viewsets
+from django.shortcuts import render, get_object_or_404
+from .models import Candidat
+
+def candidate_profile(request, candidate_id):
+    """
+    View to display the profile of a candidate.
+    """
+    # Fetch candidate by id
+    candidate = get_object_or_404(Candidate, id=candidate_id)
+
+    # Fetch related experiences and formations
+    experiences = candidate.experiences.all()
+    formations = candidate.formations.all()
+    langue= candidate.langue.all()
+    # Send everything to the template
+    context = {
+        'candidate': candidate,
+        'experiences': experiences,
+        'formations': formations,
+        'skills': [skill.strip() for skill in candidate.skills.split(',')],
+    }
+    return render(request, 'djezzy_app/candidatProfile.html', context)
 
 
 class IsAdmin(permissions.BasePermission):
@@ -484,11 +506,16 @@ def login_view(request):
 
 from .models import Entretien, Departement
 from .serializers import EntretienSerializer, DepartementSerializer
-
+from datetime import date
 class EntretienViewSet(viewsets.ModelViewSet):
     queryset = Entretien.objects.all()
     serializer_class = EntretienSerializer
 
+def liste_entretiens(request):
+    entretiens = Entretien.objects.all()  # tu peux filtrer ici si besoin
+    return render(request, 'entretiens.html', {'entretiens': entretiens})
+
+    
 class DepartementViewSet(viewsets.ModelViewSet):
     queryset = Departement.objects.all()
     serializer_class = DepartementSerializer

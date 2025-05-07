@@ -1,4 +1,7 @@
 from django.contrib import admin
+
+# Register your models here.
+from django.contrib import admin
 from .models import *
 from .models import Departement
 # Enregistrement simple
@@ -15,3 +18,4 @@ admin.site.register(Experience)
 admin.site.register(Region)
 admin.site.register(Departement)
 admin.site.register(Entretien)
+admin.site.register(CandidatLangue)

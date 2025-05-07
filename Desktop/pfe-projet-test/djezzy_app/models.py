@@ -23,16 +23,15 @@ class Candidat(models.Model):
     prenom = models.CharField(max_length=100)
     sexe = models.CharField(max_length=10)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=100)  # Mot de passe en texte simple
+    password = models.CharField(max_length=100) 
     date_naissance = models.DateField()
     telephone = models.CharField(max_length=20)
     profession = models.CharField(max_length=100)
     description = models.TextField()
-    langues = models.ManyToManyField('Langue')
     competences = models.ManyToManyField('Competence')
     specialite = models.ManyToManyField('Specialite')
     region = models.ForeignKey('Region', on_delete=models.SET_NULL, null=True, blank=True)
-
+    photo_profil = models.ImageField(upload_to='profile_photos/', default='profile_photos/default.jpg', blank=True, null=True)
     def __str__(self):
         return self.email
 
@@ -77,7 +76,28 @@ class Specialite(models.Model):
 
 # Modèle Langue
 class Langue(models.Model):
-    nom = models.CharField(max_length=50)
+    nom = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nom
+
+# This is the bridge model
+class CandidatLangue(models.Model):
+    LEVEL_CHOICES = [
+        ('A1', 'A1 - Débutant'),
+        ('A2', 'A2 - Élémentaire'),
+        ('B1', 'B1 - Intermédiaire'),
+        ('B2', 'B2 - Intermédiaire supérieur'),
+        ('C1', 'C1 - Avancé'),
+        ('C2', 'C2 - Maîtrise'),
+    ]
+
+    candidat = models.ForeignKey(Candidat, on_delete=models.CASCADE)
+    langue = models.ForeignKey(Langue, on_delete=models.CASCADE)
+    niveau = models.CharField(max_length=2, choices=LEVEL_CHOICES)
+
+    def __str__(self):
+        return f"{self.candidat} - {self.langue} ({self.get_niveau_display()})"
 
 
 # Modèle Offre d'emploi
@@ -138,10 +158,11 @@ class Entretien(models.Model):
         ('presentiel', 'Présentiel'),
     ]
 
-    ETAT_CHOICES = [
-        ('programme', 'Programmé'),
-        ('complete', 'Complété'),
-        ('annule', 'Annulé'),
+     STATUT_CHOICES = [
+        ('today', "Aujourd'hui"),
+        ('week', "Cette semaine"),
+        ('future', "À venir"),
+        ('past', "Passés"),
     ]
 
     id_entretien = models.AutoField(primary_key=True)
@@ -150,12 +171,31 @@ class Entretien(models.Model):
     type_entretien = models.CharField(max_length=20, choices=TYPE_ENTRETIEN_CHOICES)
     etat = models.CharField(max_length=20, choices=ETAT_CHOICES, default='programme')
     candidature = models.ForeignKey('Candidature', on_delete=models.CASCADE)
-
+    statut = models.CharField(max_length=20, choices=STATUT_CHOICES)
 
     def __str__(self):
         return f"Entretien {self.id_entretien} - {self.type_entretien} le {self.date_entretien}"
     
+     def get_statut_display(self):
+        return dict(self.STATUT_CHOICES).get(self.statut, self.statut)
 
+    def get_action_label(self):
+        if self.type_entretien == 'video':
+            return 'Démarrer'
+        elif self.type_entretien == 'telephone':
+            return 'Appeler'
+        elif self.type_entretien == 'presentiel':
+            return 'Confirmer'
+        return 'Action'
+
+    def get_icone(self):
+        if self.type_entretien == 'video':
+            return 'video'
+        elif self.type_entretien == 'telephone':
+            return 'phone'
+        elif self.type_entretien == 'presentiel':
+            return 'calendar-alt'
+        return 'question'
 
 
 from django.contrib.auth.models import AbstractUser
