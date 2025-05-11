@@ -2,6 +2,12 @@ from django.urls import path, include
 from .views import login_view, liste_offres_api, detail_candidature
 from rest_framework.routers import DefaultRouter
 from .views import (
+    login_view, liste_offres_api, detail_candidature, logout_view, RegisterCandidatView,
+    home, a_propos, admin_profile, candidat_profile, candidats, connexion, contact,
+    creer_annonce, entretien, liste_des_offres, mes_candidats, offres_emploi, offres_candidat,
+    responsable, tableau_de_bord, base, base1, base2
+)
+from .views import (
     CandidatViewSet,
     DomaineViewSet,
     SpecialiteViewSet,
@@ -36,7 +42,21 @@ router.register(r'entretien', EntretienViewSet)
 # Inclure les URLs générées par le routeur
 urlpatterns = [
     path('', include(router.urls)),  # Inclure toutes les routes générées automatiquement sous la racine de l'API
-    
+    path('home', home, name='home'),
+    path('a-propos/', a_propos, name='a-propos'),
+    path('admin-profile/', admin_profile, name='admin-profile'),
+    path('candidat-profile/', candidat_profile, name='candidat-profile'),
+    path('candidats/', candidats, name='candidats'),
+    path('connexion/', connexion, name='connexion'),
+    path('contact/', contact, name='contact'),
+    path('creer-annonce/', creer_annonce, name='creer-annonce'),
+    path('entretien/', entretien, name='entretien'),
+    path('liste-des-offres/', liste_des_offres, name='liste-des-offres'),
+    path('mes-candidats/', mes_candidats, name='mes-candidats'),
+    path('offres-emploi/', offres_emploi, name='offres-emploi'),
+    path('offres-candidat/', offres_candidat, name='offres-candidat'),
+    path('responsable/', responsable, name='responsable'),
+    path('tableau-de-bord/', tableau_de_bord, name='tableau-de-bord'),
     # Routes d'authentification
     path('auth/login/', login_view, name='login-candidat'),
     path('auth/logout/', logout_view, name='logout'),

@@ -18,7 +18,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import (
     Candidat, Langue, Domaine, Specialite, Competence,
-    Formation, Experience, Offre, Candidature, Region,Entretien
+    Formation, Experience, Offre, Candidature, Region
 )
 from .serializers import (
     CandidatSerializer, CandidatDetailSerializer,
@@ -32,40 +32,53 @@ from .serializers import (
     CandidatureSerializer,
     RegionSerializer,
     RegisterCandidatSerializer,  # Assurez-vous que ce serializer existe
-    # UpdateCandidatProfileSerializer  # Créez ce serializer dans serializers.py
+    UpdateCandidatProfileSerializer  # Créez ce serializer dans serializers.py
 )
-
-
+# Pages normales (templates HTML)
 def home(request):
-    """
-    Affiche la page d'accueil de l'application.
-    """
     return render(request, 'djezzy_app/home.html')
 
-from rest_framework import viewsets
-from django.shortcuts import render, get_object_or_404
-from .models import Candidat
+def a_propos(request):
+    return render(request, 'djezzy_app/A_propos.html')
 
-def candidate_profile(request, candidate_id):
-    """
-    View to display the profile of a candidate.
-    """
-    # Fetch candidate by id
-    candidate = get_object_or_404(Candidate, id=candidate_id)
+def admin_profile(request):
+    return render(request, 'djezzy_app/adminProfile.html')
 
-    # Fetch related experiences and formations
-    experiences = candidate.experiences.all()
-    formations = candidate.formations.all()
-    langue= candidate.langue.all()
-    # Send everything to the template
-    context = {
-        'candidate': candidate,
-        'experiences': experiences,
-        'formations': formations,
-        'skills': [skill.strip() for skill in candidate.skills.split(',')],
-    }
-    return render(request, 'djezzy_app/candidatProfile.html', context)
+def candidat_profile(request):
+    return render(request, 'djezzy_app/candidatProfile.html')
 
+def candidats(request):
+    return render(request, 'djezzy_app/candidats.html')
+
+def connexion(request):
+    return render(request, 'djezzy_app/connexion.html')
+
+def contact(request):
+    return render(request, 'djezzy_app/contact.html')
+
+def creer_annonce(request):
+    return render(request, 'djezzy_app/creerAnnonce.html')
+
+def entretien(request):
+    return render(request, 'djezzy_app/Entretient.html')
+
+def liste_des_offres(request):
+    return render(request, 'djezzy_app/ListeDesOffres.html')
+
+def mes_candidats(request):
+    return render(request, 'djezzy_app/mesCandidat.html')
+
+def offres_emploi(request):
+    return render(request, 'djezzy_app/offres_d\'emploi.html')
+
+def offres_candidat(request):
+    return render(request, 'djezzy_app/offresCandidat.html')
+
+def responsable(request):
+    return render(request, 'djezzy_app/Responsable.html')
+
+def tableau_de_bord(request):
+    return render(request, 'djezzy_app/tableauDeBord.html')
 
 class IsAdmin(permissions.BasePermission):
     """
@@ -506,16 +519,11 @@ def login_view(request):
 
 from .models import Entretien, Departement
 from .serializers import EntretienSerializer, DepartementSerializer
-from datetime import date
+
 class EntretienViewSet(viewsets.ModelViewSet):
     queryset = Entretien.objects.all()
     serializer_class = EntretienSerializer
 
-def liste_entretiens(request):
-    entretiens = Entretien.objects.all()  # tu peux filtrer ici si besoin
-    return render(request, 'entretiens.html', {'entretiens': entretiens})
-
-    
 class DepartementViewSet(viewsets.ModelViewSet):
     queryset = Departement.objects.all()
     serializer_class = DepartementSerializer

@@ -158,11 +158,10 @@ class Entretien(models.Model):
         ('presentiel', 'Présentiel'),
     ]
 
-     STATUT_CHOICES = [
-        ('today', "Aujourd'hui"),
-        ('week', "Cette semaine"),
-        ('future', "À venir"),
-        ('past', "Passés"),
+    ETAT_CHOICES = [
+        ('programme', 'Programmé'),
+        ('complete', 'Complété'),
+        ('annule', 'Annulé'),
     ]
 
     id_entretien = models.AutoField(primary_key=True)
@@ -171,31 +170,10 @@ class Entretien(models.Model):
     type_entretien = models.CharField(max_length=20, choices=TYPE_ENTRETIEN_CHOICES)
     etat = models.CharField(max_length=20, choices=ETAT_CHOICES, default='programme')
     candidature = models.ForeignKey('Candidature', on_delete=models.CASCADE)
-    statut = models.CharField(max_length=20, choices=STATUT_CHOICES)
+
 
     def __str__(self):
         return f"Entretien {self.id_entretien} - {self.type_entretien} le {self.date_entretien}"
-    
-     def get_statut_display(self):
-        return dict(self.STATUT_CHOICES).get(self.statut, self.statut)
-
-    def get_action_label(self):
-        if self.type_entretien == 'video':
-            return 'Démarrer'
-        elif self.type_entretien == 'telephone':
-            return 'Appeler'
-        elif self.type_entretien == 'presentiel':
-            return 'Confirmer'
-        return 'Action'
-
-    def get_icone(self):
-        if self.type_entretien == 'video':
-            return 'video'
-        elif self.type_entretien == 'telephone':
-            return 'phone'
-        elif self.type_entretien == 'presentiel':
-            return 'calendar-alt'
-        return 'question'
 
 
 from django.contrib.auth.models import AbstractUser
