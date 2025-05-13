@@ -1,0 +1,311 @@
+{% extends 'djezzy_app/base2.html' %}
+{% load static %}```python
+# Add Logs
+{% block logs %}
+    <div class="logs-section">
+        <div class="section-title">
+            <span>Logs du système</span>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Utilisateur</th>
+                    <th>Action</th>
+                    <th>Résultat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ log.date }}</td>
+                        <td>{{ log.user }}</td>
+                        <td>{{ log.action }}</td>
+                        <td>{{ log.result }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+```
+{% block contentCandidat%}
+<link rel="stylesheet"href="{% static 'css/tableauBord.css'%}">
+        <!-- Main Content - modernized -->
+        <main class="main-content">
+            <div class="header">
+                <div class="welcome-section">
+                    <span class="welcome-message">Bienvenue de retour,</span>
+                    <h1 class="page-title">Tableau de bord</h1>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Brahim Mansouri</span>
+                    <div class="user-avatar">BM</div>
+                </div>
+            </div>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" class="search-input" placeholder="Rechercher des annonces, candidats, etc.">
+            </div>
+            
+            <!-- Dashboard Stats Cards - Modernized -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon blue">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div>
+                            <div class="card-value">24</div>
+                            <div class="card-label">Annonces actives</div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar blue"></div>
+                    </div>
+                    <div class="trend up">
+                        <i class="fas fa-arrow-up"></i> 12% par rapport au mois dernier
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon green">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div>
+                            <div class="card-value">135</div>
+                            <div class="card-label">Candidatures reçues</div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar green"></div>
+                    </div>
+                    <div class="trend up">
+                        <i class="fas fa-arrow-up"></i> 23% par rapport au mois dernier
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon orange">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <div class="card-value">18</div>
+                            <div class="card-label">Entretiens programmés</div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar orange"></div>
+                    </div>
+                    <div class="trend up">
+                        <i class="fas fa-arrow-up"></i> 8% par rapport au mois dernier
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon red">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div>
+                            <div class="card-value">7</div>
+                            <div class="card-label">Embauches ce mois</div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar red"></div>
+                    </div>
+                    <div class="trend down">
+                        <i class="fas fa-arrow-down"></i> 5% par rapport au mois dernier
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics Charts Section - New -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">Candidatures par département</div>
+                        <div class="chart-period">
+                            <div class="period-option">Semaine</div>
+                            <div class="period-option active">Mois</div>
+                            <div class="period-option">Année</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="applicationsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Jobs and Applications - Enhanced -->
+            <div class="panels">
+                <div class="panel">
+                    <div class="section-title">
+                        <span>Annonces récentes</span>
+                        <a href="ListeDesOffres.html" class="view-all">Voir tout <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Titre</th>
+                                <th>Département</th>
+                                <th>Candidats</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Responsable Commercial</td>
+                                <td>Ventes</td>
+                                <td>42</td>
+                                <td><span class="status active">Active</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Développeur Full Stack</td>
+                                <td>IT</td>
+                                <td>28</td>
+                                <td><span class="status active">Active</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Chef de Projet Digital</td>
+                                <td>Marketing</td>
+                                <td>36</td>
+                                <td><span class="status active">Active</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="panel">
+                    <div class="section-title">
+                        <span>Candidatures récentes</span>
+                        <a href="candidats.html" class="view-all">Voir tout <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Candidat</th>
+                                <th>Poste</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="candidate-name">
+                                    <div class="candidate-avatar">KL</div>
+                                    Karim Lahlou
+                                </td>
+                                <td>Développeur Full Stack</td>
+                                <td>23/03/2025</td>
+                            </tr>
+                            <tr>
+                                <td class="candidate-name">
+                                <div class="candidate-avatar">SB</div>
+                                    Sara Benali
+                                </td>
+                                <td>Chef de Projet Digital</td>
+                                <td>22/03/2025</td>
+                            </tr>
+                            <tr>
+                                <td class="candidate-name">
+                                    <div class="candidate-avatar">YM</div>
+                                    Yacine Mehdi
+                                </td>
+                                <td>Ingénieur Réseau</td>
+                                <td>21/03/2025</td>
+                            </tr>
+                            <tr>
+                                <td class="candidate-name">
+                                    <div class="candidate-avatar">FZ</div>
+                                    Fatima Zahra
+                                </td>
+                                <td>Responsable Commercial</td>
+                                <td>20/03/2025</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Top Performers Section - New -->
+            <div class="panel">
+                <div class="section-title">
+                    <span>Meilleurs postes par taux de conversion</span>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Poste</th>
+                            <th>Département</th>
+                            <th>Candidats</th>
+                            <th>Taux de conversion</th>
+                            <th>Temps moyen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Développeur Full Stack</td>
+                            <td>IT</td>
+                            <td>28</td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <div style="width: 100px; height: 8px; background-color: #f0f0f0; border-radius: 4px; margin-right: 10px;">
+                                        <div style="width: 85%; height: 100%; background-color: #27ae60; border-radius: 4px;"></div>
+                                    </div>
+                                    <span>85%</span>
+                                </div>
+                            </td>
+                            <td>12 jours</td>
+                        </tr>
+                        <tr>
+                            <td>Chef de Projet Digital</td>
+                            <td>Marketing</td>
+                            <td>36</td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <div style="width: 100px; height: 8px; background-color: #f0f0f0; border-radius: 4px; margin-right: 10px;">
+                                        <div style="width: 72%; height: 100%; background-color: #3498db; border-radius: 4px;"></div>
+                                    </div>
+                                    <span>72%</span>
+                                </div>
+                            </td>
+                            <td>15 jours</td>
+                        </tr>
+                        <tr>
+                            <td>Responsable Commercial</td>
+                            <td>Ventes</td>
+                            <td>42</td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <div style="width: 100px; height: 8px; background-color: #f0f0f0; border-radius: 4px; margin-right: 10px;">
+                                        <div style="width: 64%; height: 100%; background-color: #f39c12; border-radius: 4px;"></div>
+                                    </div>
+                                    <span>64%</span>
+                                </div>
+                            </td>
+                            <td>18 jours</td>
+                        </tr>
+                        <tr>
+                            <td>Ingénieur Réseau</td>
+                            <td>IT</td>
+                            <td>29</td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <div style="width: 100px; height: 8px; background-color: #f0f0f0; border-radius: 4px; margin-right: 10px;">
+                                        <div style="width: 58%; height: 100%; background-color: var(--primary-color); border-radius: 4px;"></div>
+                                    </div>
+                                    <span>58%</span>
+                                </div>
+                            </td>
+                            <td>21 jours</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endblock %}        
+            

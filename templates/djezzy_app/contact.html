@@ -1,0 +1,108 @@
+
+{% extends 'djezzy_app/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-header">
+            <h1>Contactez-nous</h1>
+            <p>Vous avez des questions ou besoin d'assistance ? Notre équipe est là pour vous aider et répondre à toutes vos préoccupations.</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Nom complet</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Numéro de téléphone</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Sujet</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Sélectionnez un sujet</option>
+                            <option value="assistance">Assistance technique</option>
+                            <option value="facturation">Facturation</option>
+                            <option value="offres">Informations sur les offres</option>
+                            <option value="suggestion">Suggestions</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Envoyer le message</button>
+                </form>
+                <div class="response-message" id="responseMessage"></div>
+            </div>
+
+            <div class="contact-info">
+                <div class="info-card">
+                    <h3>Nos coordonnées</h3>
+                    <div class="info-item">
+                        <div class="icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <p>Siège social Djezzy, Route de Wilaya, Bir Mourad Raïs, Alger, Algérie</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <p>Service client: 888 (depuis un mobile Djezzy)<br>+213 770 888 888 (depuis un autre réseau)</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <p>info@djezzy.dz</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <p>Du dimanche au jeudi: 8h00 - 17h00<br>Vendredi et samedi: 9h00 - 16h00</p>
+                    </div>
+                    <div class="contact-social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Assistance rapide</h3>
+                    <div class="info-item">
+                        <div class="icon">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <p>Chat en direct disponible sur notre application mobile Djezzy</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <p>Téléchargez notre application pour une assistance instantanée</p>
+                    </div>
+                </div>
+
+                <div class="map-container">
+                    <!-- Remplacez par l'adresse exacte du siège de Djezzy -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12794.880103079482!2d3.0511233697753906!3d36.738223899999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb26d3c0a172d%3A0x5d387c9d1f1b83e3!2sDjezzy!5e0!3m2!1sfr!2sdz!4v1654513352161!5m2!1sfr!2sdz" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

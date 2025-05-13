@@ -1,0 +1,161 @@
+{% load static %}
+{% extends 'djezzy_app/base2.html' %}
+{% block contentCandidat%}
+    <link rel="stylesheet"href="{% static 'css/creeAnnonce.css'%}">
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1 class="page-title">Créer une annonce</h1>
+                <a href="ListeDesOffres.html" class="btn btn-view-listings"> Liste des annonces</a>
+                
+                <div class="user-info">
+                    <span class="user-name">Brahim Mansouri</span>
+                    <div class="user-avatar">BM</div>
+                </div>
+            </div>
+            
+            <!-- Form Container -->
+            <div class="form-container">
+                <form id="jobPostingForm">
+                    <!-- Job Details Section -->
+                    <div class="form-section">
+                        <h2 class="section-title">Informations générales</h2>
+                        
+                        <div class="form-group">
+                            <label for="jobTitle">Titre du poste *</label>
+                            <input type="text" id="jobTitle" placeholder="Ex: Développeur Full Stack" required>
+                            <div class="error-message">Veuillez saisir le titre du poste</div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="department">Département *</label>
+                                <select id="department" required>
+                                    <option value="">Sélectionner un département</option>
+                                    <option value="it">IT</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="hr">Ressources Humaines</option>
+                                    <option value="sales">Ventes</option>
+                                    <option value="operations">Opérations</option>
+                                    <option value="customer_service">Service Client</option>
+                                </select>
+                                <div class="error-message">Veuillez sélectionner un département</div>
+                            </div>
+                            <div class="form-col">
+                                <label for="location">Lieu *</label>
+                                <select id="location" required>
+                                    <option value="">Sélectionner un lieu</option>
+                                    <option value="alger">Alger</option>
+                                    <option value="oran">Oran</option>
+                                    <option value="constantine">Constantine</option>
+                                    <option value="annaba">Annaba</option>
+                                    <option value="remote">Télétravail</option>
+                                </select>
+                                <div class="error-message">Veuillez sélectionner un lieu</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="employmentType">Type de contrat *</label>
+                                <select id="employmentType" required>
+                                    <option value="">Sélectionner un type</option>
+                                    <option value="full_time">CDI</option>
+                                    <option value="part_time">CDD</option>
+                                    <option value="contract">Contrat de prestation</option>
+                                    <option value="internship">Stage</option>
+                                </select>
+                                <div class="error-message">Veuillez sélectionner un type de contrat</div>
+                            </div>
+                            <div class="form-col">
+                                <label for="experienceLevel">Niveau d'expérience *</label>
+                                <select id="experienceLevel" required>
+                                    <option value="">Sélectionner un niveau</option>
+                                    <option value="entry">Débutant (0-2 ans)</option>
+                                    <option value="mid">Intermédiaire (2-5 ans)</option>
+                                    <option value="senior">Senior (5-8 ans)</option>
+                                    <option value="expert">Expert (8+ ans)</option>
+                                </select>
+                                <div class="error-message">Veuillez sélectionner un niveau d'expérience</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="publishDate">Date de publication *</label>
+                                <input type="date" id="publishDate" required>
+                                <div class="error-message">Veuillez sélectionner une date de publication</div>
+                            </div>
+                            <div class="form-col">
+                                <label for="applicationDeadline">Date limite de candidature *</label>
+                                <input type="date" id="applicationDeadline" required>
+                                <div class="error-message">Veuillez sélectionner une date limite</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Job Description Section -->
+                    <div class="form-section">
+                        <h2 class="section-title">Description du poste</h2>
+                        
+                        <div class="form-group">
+                            <label for="shortDescription">Brève description (résumé) *</label>
+                            <textarea id="shortDescription" placeholder="Écrivez un bref résumé du poste (max 300 caractères)" maxlength="300" required></textarea>
+                            <div class="error-message">Veuillez saisir une brève description</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="jobDescription">Description détaillée *</label>
+                            <div class="editor-container">
+                                <div class="toolbar">
+                                    <div class="toolbar-group">
+                                        <button type="button" title="Gras"><i class="fas fa-bold"></i></button>
+                                        <button type="button" title="Italique"><i class="fas fa-italic"></i></button>
+                                        <button type="button" title="Souligné"><i class="fas fa-underline"></i></button>
+                                    </div>
+                                    <div class="toolbar-group">
+                                        <button type="button" title="Liste à puces"><i class="fas fa-list-ul"></i></button>
+                                        <button type="button" title="Liste numérotée"><i class="fas fa-list-ol"></i></button>
+                                    </div>
+                                    <div class="toolbar-group">
+                                        <button type="button" title="Titre"><i class="fas fa-heading"></i></button>
+                                        <button type="button" title="Citation"><i class="fas fa-quote-right"></i></button>
+                                    </div>
+                                </div>
+                                <div id="jobDescription" class="editor-content" contenteditable="true"></div>
+                            </div>
+                            <div class="error-message">Veuillez saisir une description détaillée</div>
+                        </div>
+                        
+                        <!-- Skills and Tags Section -->
+                        <div class="form-section">
+                            <h2 class="section-title">
+                                Compétences et tags
+                                
+                            </h2>
+                        
+                            <div class="form-group">
+                                <label for="skills">Compétences requises</label>
+                                <div class="skills-container" id="skillsContainer">
+                                    <!-- Skills will be added here -->
+                                </div>
+                                <div class="skill-input">
+                                    <input type="text" id="skillInput" placeholder="Ajouter une compétence...">
+                                    <button type="button" class="btn-add" id="addSkill">Ajouter</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-cancel">Annuler</button>
+                        <button type="submit" class="btn btn-publish">Publier l'annonce</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    {% endblock %}  

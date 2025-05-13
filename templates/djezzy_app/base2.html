@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djezzy Recrutement - Espace Recruteur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="container">
+        <!-- Sidebar - same as original -->
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'img/Logo_Djezzy_2015-1.png' %}" alt="Logo">
+                <div class="brand-text">Djezzy Recrutement</div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-title">Général</div>
+                <a href="#" class="menu-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="ListeDesOffres.html" class="menu-item">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Annonces</span>
+                </a>
+                <a href="candidats.html" class="menu-item">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Candidats</span>
+                </a>
+
+                <a href="Entretient.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Entretiens</span>
+                </a>
+                
+                <div class="menu-title">Compte</div>
+                <a href="adminProfile.html" class="menu-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Mon profil</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+        </aside>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <div class="footer">
+            <p>&copy; 2025 Djezzy Recrutement. Tous droits réservés.</p>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/mainA.js' %}"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djezzy Recrutement - Espace Recruteur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-md-2 sidebar">
+                <div class="brand">
+                    <img src="{% static 'img/Logo_Djezzy_2015-1.png' %}" alt="Logo">
+                    <div class="brand-text">Djezzy Recrutement</div>
+                </div>
+                
+                <nav class="sidebar-menu">
+                    <div class="menu-title">Général</div>
+                    <a href="#" class="menu-item active">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="ListeDesOffres.html" class="menu-item">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Annonces</span>
+                    </a>
+                    <a href="candidats.html" class="menu-item">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Candidats</span>
+                    </a>
+
+                    <a href="Entretient.html" class="menu-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Entretiens</span>
+                    </a>
+                    
+                    <div class="menu-title">Compte</div>
+                    <a href="adminProfile.html" class="menu-item">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Mon profil</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                </nav>
+            </aside>
+            <main class="col-md-10">
+                {% block content %}
+                {% endblock %}
+                <div class="footer">
+                    <p>&copy; 2025 Djezzy Recrutement. Tous droits réservés.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="{% static 'js/mainA.js' %}"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djezzy Recrutement - Espace Recruteur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="container">
+        <!-- Sidebar - same as original -->
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'img/Logo_Djezzy_2015-1.png' %}" alt="Logo">
+                <div class="brand-text">Djezzy Recrutement</div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-title">Général</div>
+                <a href="#" class="menu-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="ListeDesOffres.html" class="menu-item">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Annonces</span>
+                </a>
+                <a href="candidats.html" class="menu-item">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Candidats</span>
+                </a>
+
+                <a href="Entretient.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Entretiens</span>
+                </a>
+                
+                <div class="menu-title">Compte</div>
+                <a href="adminProfile.html" class="menu-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Mon profil</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+        </aside>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <div class="footer">
+            <p>&copy; 2025 Djezzy Recrutement. Tous droits réservés.</p>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/mainA.js' %}"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djezzy Recrutement - Espace Recruteur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="container">
+        <!-- Sidebar - same as original -->
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'img/Logo_Djezzy_2015-1.png' %}" alt="Logo">
+                <div class="brand-text">Djezzy Recrutement</div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-title">Général</div>
+                <a href="#" class="menu-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="ListeDesOffres.html" class="menu-item">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Annonces</span>
+                </a>
+                <a href="candidats.html" class="menu-item">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Candidats</span>
+                </a>
+
+                <a href="Entretient.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Entretiens</span>
+                </a>
+                
+                <div class="menu-title">Compte</div>
+                <a href="adminProfile.html" class="menu-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Mon profil</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+        </aside>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <div class="footer">
+            <p>&copy; 2025 Djezzy Recrutement. Tous droits réservés.</p>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/mainA.js' %}"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djezzy Recrutement - Espace Recruteur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  
+</head>
+<body>
+    <div class="container">
+        <div class="container">
+        <!-- Sidebar - same as original -->
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'img/Logo_Djezzy_2015-1.png' %}" alt="Logo">
+                <div class="brand-text">Djezzy Recrutement</div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-title">Général</div>
+                <a href="#" class="menu-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="ListeDesOffres.html" class="menu-item">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Annonces</span>
+                </a>
+                <a href="candidats.html" class="menu-item">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Candidats</span>
+                </a>
+
+                <a href="Entretient.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Entretiens</span>
+                </a>
+                
+                <div class="menu-title">Compte</div>
+                <a href="adminProfile.html" class="menu-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Mon profil</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+        </aside>
+        {% block content %}
+        {% endblock %}
+        <div class="footer">
+            <p>&copy; 2025 Djezzy Recrutement. Tous droits réservés.</p>
+        </div>
+    </main>
+</div>
+</div>
+<script src="{% static 'js/mainA.js' %}"></script>
+</body>
+</html>

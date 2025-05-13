@@ -1,0 +1,28 @@
+
+{% extends 'djezzy_app/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/offres.css' %}">
+
+<div class="search-jobs">
+    <input type="text" id="searchInput" placeholder="Rechercher une offre..." onkeyup="searchOffers()">
+</div>
+
+<section class="offres">
+    <div class="container">
+        <h1>Toutes les offres d'emploi</h1>
+        <div class="offres-grid" id="offresGrid">
+            {% for offre in offres %}
+            <div class="offre-card" data-title="{{ offre.titre }}">
+                <h2>{{ offre.titre }}</h2>
+                <p>{{ offre.description|truncatechars:100 }}</p>
+                <a href="{% url 'offre_detail' offre.id_offre %}" class="details-btn">Voir détails</a>
+                <a href="{% url 'postuler_offre' offre.id_offre %}" class="apply-btn">Postuler</a>
+            </div>
+            {% empty %}
+            <p>Aucune offre disponible.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

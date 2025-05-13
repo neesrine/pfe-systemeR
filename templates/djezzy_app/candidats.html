@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djezzy Recrutement - Candidats</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet"href="{% static 'css/candidatsAdmin.css'%}">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="{% static 'img/Logo_Djezzy_2015-1.png' %}" alt="Logo">
+                <div class="brand-text">Djezzy Recrutement</div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-title">Général</div>
+                <a href="tableauDeBord.html" class="menu-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="ListeDesOffres.html" class="menu-item">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Annonces</span>
+                </a>
+                <a href="candidats.html" class="menu-item active">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Candidats</span>
+                </a>
+                
+                <a href="Entretient.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Entretiens</span>
+                </a>
+
+                <div class="menu-title">Compte</div>
+                <a href="adminProfile.html" class="menu-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Mon profil</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">Candidats</h1>
+                <div class="user-info">
+                    <span>Brahim Mansouri</span>
+                    <div class="user-avatar">BM</div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="filters">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Rechercher un candidat...">
+                </div>
+                <div class="filter-options">
+                    <select>
+                        <option>Tous les départements</option>
+                        <option>IT</option>
+                        <option>Marketing</option>
+                        <option>Infrastructure</option>
+                        <option>Ventes</option>
+                    </select>
+                    <select>
+                        <option>Tous les postes</option>
+                        <option>Développeur Full Stack</option>
+                        <option>Chef de Projet Digital</option>
+                        <option>Ingénieur Réseau</option>
+                        <option>Responsable Commercial</option>
+                    </select>
+                    <select>
+                        <option>Tous les statuts</option>
+                        <option>Nouveau</option>
+                        <option>Accepté</option>
+                        <option>Refusé</option>
+                    </select>
+                </div>
+                <button class="add-button">
+                </button>
+            </div>
+
+            <!-- Candidates Table -->
+            <div class="candidates-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Candidat</th>
+                            <th>Poste</th>
+                            <th>Département</th>
+                            <th>Date de candidature</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="candidate-info">
+                                <div class="avatar">KL</div>
+                                <div class="info">
+                                    <div class="name">Karim Lahlou</div>
+                                    <div class="email">karim.lahlou@gmail.com</div>
+                                </div>
+                            </td>
+                            <td>Développeur Full Stack</td>
+                            <td>IT</td>
+                            <td>23/03/2025</td>
+                            <td><span class="status new">Nouveau</span></td>
+                            <td class="actions">
+                                <button class="action-btn view" title="Accepter"><i class="fas fa-check"></i></button>
+                                <button class="action-btn delete" title="Supprimer"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="candidate-info">
+                                <div class="avatar">KL</div>
+                                <div class="info">
+                                    <div class="name">Karim Lahlou</div>
+                                    <div class="email">karim.lahlou@gmail.com</div>
+                                </div>
+                            </td>
+                            <td>Développeur Full Stack</td>
+                            <td>IT</td>
+                            <td>23/03/2025</td>
+                            <td><span class="status new">Nouveau</span></td>
+                            <td class="actions">
+                                <button class="action-btn view" title="Accepter"><i class="fas fa-check"></i></button>
+                                <button class="action-btn delete" title="Supprimer"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="candidate-info">
+                                <div class="avatar">KL</div>
+                                <div class="info">
+                                    <div class="name">Karim Lahlou</div>
+                                    <div class="email">karim.lahlou@gmail.com</div>
+                                </div>
+                            </td>
+                            <td>Développeur Full Stack</td>
+                            <td>IT</td>
+                            <td>23/03/2025</td>
+                            <td><span class="status new">Nouveau</span></td>
+                            <td class="actions">
+                                <button class="action-btn view" title="Accepter"><i class="fas fa-check"></i></button>
+                                <button class="action-btn delete" title="Supprimer"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="candidate-info">
+                                <div class="avatar">KL</div>
+                                <div class="info">
+                                    <div class="name">Karim Lahlou</div>
+                                    <div class="email">karim.lahlou@gmail.com</div>
+                                </div>
+                            </td>
+                            <td>Développeur Full Stack</td>
+                            <td>IT</td>
+                            <td>23/03/2025</td>
+                            <td><span class="status new">nouveau</span></td>
+                            <td class="actions">
+                                <button class="action-btn view" title="Accepter"><i class="fas fa-check"></i></button>
+                                <button class="action-btn delete" title="Supprimer"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="candidate-info">
+                                <div class="avatar">SB</div>
+                                <div class="info">
+                                    <div class="name">Sara Benali</div>
+                                    <div class="email">sara.benali@outlook.com</div>
+                                </div>
+                            </td>
+                            <td>Chef de Projet Digital</td>
+                            <td>Marketing</td>
+                            <td>22/03/2025</td>
+                            <td><span class="status new">nouveau</span></td>
+                            <td class="actions">
+                                <button class="action-btn view" title="Accepter"><i class="fas fa-check"></i></button>
+                                <button class="action-btn delete" title="Supprimer"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="candidate-info">
+                                <div class="avatar">YM</div>
+                                <div class="info">
+                                    <div class="name">Yacine Mehdi</div>
+                                    <div class="email">yacine.mehdi@yahoo.fr</div>
+                                </div>
+                            </td>
+                            <td>Ingénieur Réseau</td>
+                            <td>Infrastructure</td>
+                            <td>21/03/2025</td>
+                            <td><span class="status new">noveau</span></td>
+                            <td class="actions">
+                                <button class="action-btn view" title="Accepter"><i class="fas fa-check"></i></button>
+                                <button class="action-btn delete" title="Supprimer"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="candidate-info">
+                                <div class="avatar">NA</div>
+                                <div class="info">
+                                    <div class="name">Naima Amrani</div>
+                                    <div class="email">naima.amrani@gmail.com</div>
+                                </div>
+                            </td>
+                            <td>Chef de Projet Digital</td>
+                            <td>Marketing</td>
+                            <td>18/03/2025</td>
+                            <td><span class="status new">nouveau</span></td>
+                            <td class="actions">
+                                <button class="action-btn view" title="Accepter"><i class="fas fa-check"></i></button>
+                                <button class="action-btn delete" title="Supprimer"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!-- Ajouter ce code HTML au-dessus ou en-dessous de votre table -->
+<div id="interview-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close-modal">&times;</span>
+            <h2>Programmer un entretien</h2>
+        </div>
+        <div class="modal-body">
+            <form id="interview-form">
+                <div class="form-group">
+                    <p>Candidat: <span id="candidate-name"></span></p>
+                </div>
+                <div class="form-group">
+                    <label for="interview-date">Date de l'entretien:</label>
+                    <input type="date" id="interview-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="interview-time">Heure de l'entretien:</label>
+                    <input type="time" id="interview-time" required>
+                </div>
+                <div class="form-group">
+                    <label for="interviewer">Recruteur:</label>
+                    <select id="interviewer" required>
+                        <option value="">Sélectionner un recruteur</option>
+                        <option value="Thomas Martin">Thomas Martin</option>
+                        <option value="Sophie Dubois">Sophie Dubois</option>
+                        <option value="Jean Dupont">Jean Dupont</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="interview-type">Type d'entretien:</label>
+                    <select id="interview-type" required>
+                        <option value="">Sélectionner un type</option>
+                        <option value="Vidéo">Entretien vidéo</option>
+                        <option value="Téléphonique">Entretien téléphonique</option>
+                        <option value="Présentiel">Entretien en présentiel</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="interview-notes">Notes:</label>
+                    <textarea id="interview-notes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Confirmer l'entretien</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <span class="ellipsis">...</span>
+                <button class="page-btn">10</button>
+                <button class="page-btn next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/mainA.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,505 @@
+{% extends 'djezzy_app/base2.html' %}
+{% load static %}
+{% block contentCandidat%}
+    <link rel="stylesheet" href="{% static 'css/ListeOffres.css' %}">
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1 class="page-title">Gestion des Annonces</h1>
+                <div class="user-info">
+                    <span class="user-name">Brahim Mansouri</span>
+                    <div class="user-avatar">BM</div>
+                </div>
+            </div>
+            
+            <!-- Actions Bar -->
+            <div class="actions-bar">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Rechercher une offre...">
+                </div>
+                
+                <div class="filter-container">
+                    <select class="filter-dropdown">
+                        <option value="">Tous les départements</option>
+                        <option value="it">IT & Développement</option>
+                        <option value="marketing">Marketing & Communication</option>
+                        <option value="ventes">Ventes & Commercial</option>
+                        <option value="rh">Ressources Humaines</option>
+                    </select>
+                    
+                    <select class="filter-dropdown">
+                        <option value="">Tous les statuts</option>
+                        <option value="active">Active</option>
+                        <option value="draft">Brouillon</option>
+                        <option value="closed">Clôturée</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+                
+                <a href="creerAnnonce.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Nouvelle Annonce
+                </a>
+            </div>
+            
+            <!-- Job Listings -->
+            <div class="jobs-container">
+                <!-- Job Card 1 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Développeur Full Stack</h3>
+                            <div class="job-department">IT & Développement</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="job-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Region centre</span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Temps plein</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tags-container">
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">API REST</span>
+                    </div>
+                    
+                    <p class="job-description">
+                        Nous recherchons un développeur Full Stack talentueux pour rejoindre notre équipe informatique. Vous travaillerez sur des projets innovants et contribuerez au développement de nos plateformes digitales.
+                    </p>
+                    
+                    <div class="job-meta">
+                        <div class="job-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Publié le 15/03/2025</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user-tie"></i>
+                                <span>42 candidats</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>187 vues</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-actions">
+                            <button class="btn-action" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action" title="Clôturer">
+                                <i class="fas fa-lock"></i>
+                            </button>
+                            <button class="btn-action" title="Changer l'état">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="btn-action" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Job Card 2 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Chef de Projet Digital</h3>
+                            <div class="job-department">Marketing & Communication</div>
+                        </div>
+                        <span class="status-badge status-urgent">Urgent</span>
+                    </div>
+                    
+                    <div class="job-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>region centre</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Temps plein</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tags-container">
+                        <span class="tag">Gestion de Projet</span>
+                        <span class="tag">Marketing Digital</span>
+                        <span class="tag">SEO/SEM</span>
+                        <span class="tag">Analytics</span>
+                    </div>
+                    
+                    <p class="job-description">
+                        Nous cherchons un Chef de Projet Digital expérimenté pour diriger nos initiatives marketing digitales. Vous serez responsable de la planification et de l'exécution des campagnes numériques.
+                    </p>
+                    
+                    <div class="job-meta">
+                        <div class="job-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Publié le 18/03/2025</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user-tie"></i>
+                                <span>28 candidats</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>156 vues</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-actions">
+                            <button class="btn-action" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action" title="Clôturer">
+                                <i class="fas fa-lock"></i>
+                            </button>
+                            <button class="btn-action" title="Changer l'état">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="btn-action" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Job Card 3 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Ingénieur Réseau</h3>
+                            <div class="job-department">IT & Développement</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="job-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Oran, Algérie</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Temps plein</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tags-container">
+                        <span class="tag">Cisco</span>
+                        <span class="tag">Réseaux</span>
+                        <span class="tag">Sécurité</span>
+                        <span class="tag">VPN</span>
+                        <span class="tag">Firewall</span>
+                    </div>
+                    
+                    <p class="job-description">
+                        Djezzy recherche un Ingénieur Réseau pour maintenir et améliorer notre infrastructure. Vous serez en charge de la mise en place et de la maintenance des équipements réseau.
+                    </p>
+                    
+                    <div class="job-meta">
+                        <div class="job-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Publié le 12/03/2025</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user-tie"></i>
+                                <span>35 candidats</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>203 vues</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-actions">
+                            <button class="btn-action" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action" title="Clôturer">
+                                <i class="fas fa-lock"></i>
+                            </button>
+                            <button class="btn-action" title="Changer l'état">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="btn-action" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Job Card 4 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Responsable Commercial</h3>
+                            <div class="job-department">Ventes & Commercial</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="job-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Constantine, Algérie</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Temps plein</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tags-container">
+                        <span class="tag">Vente B2B</span>
+                        <span class="tag">Développement Commercial</span>
+                        <span class="tag">Gestion d'équipe</span>
+                        <span class="tag">Négociation</span>
+                    </div>
+                    
+                    <p class="job-description">
+                        Nous cherchons un Responsable Commercial pour développer nos activités dans la région de Constantine. Vous serez responsable d'une équipe de vendeurs et de la réalisation des objectifs commerciaux.
+                    </p>
+                    
+                    <div class="job-meta">
+                        <div class="job-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Publié le 10/03/2025</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user-tie"></i>
+                                <span>30 candidats</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>178 vues</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-actions">
+                            <button class="btn-action" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action" title="Clôturer">
+                                <i class="fas fa-lock"></i>
+                            </button>
+                            <button class="btn-action" title="Changer l'état">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="btn-action" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Job Card 4 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Responsable Commercial</h3>
+                            <div class="job-department">Ventes & Commercial</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="job-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Constantine, Algérie</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Temps plein</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tags-container">
+                        <span class="tag">Vente B2B</span>
+                        <span class="tag">Développement Commercial</span>
+                        <span class="tag">Gestion d'équipe</span>
+                        <span class="tag">Négociation</span>
+                    </div>
+                    
+                    <p class="job-description">
+                        Nous cherchons un Responsable Commercial pour développer nos activités dans la région de Constantine. Vous serez responsable d'une équipe de vendeurs et de la réalisation des objectifs commerciaux.
+                    </p>
+                    
+                    <div class="job-meta">
+                        <div class="job-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Publié le 10/03/2025</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user-tie"></i>
+                                <span>30 candidats</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>178 vues</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-actions">
+                            <button class="btn-action" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action" title="Clôturer">
+                                <i class="fas fa-lock"></i>
+                            </button>
+                            <button class="btn-action" title="Changer l'état">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="btn-action" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Job Card 4 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Responsable Commercial</h3>
+                            <div class="job-department">Ventes & Commercial</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="job-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Constantine, Algérie</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Temps plein</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tags-container">
+                        <span class="tag">Vente B2B</span>
+                        <span class="tag">Développement Commercial</span>
+                        <span class="tag">Gestion d'équipe</span>
+                        <span class="tag">Négociation</span>
+                    </div>
+                    
+                    <p class="job-description">
+                        Nous cherchons un Responsable Commercial pour développer nos activités dans la région de Constantine. Vous serez responsable d'une équipe de vendeurs et de la réalisation des objectifs commerciaux.
+                    </p>
+                    
+                    <div class="job-meta">
+                        <div class="job-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Publié le 10/03/2025</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user-tie"></i>
+                                <span>30 candidats</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>178 vues</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-actions">
+                            <button class="btn-action" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action" title="Clôturer">
+                                <i class="fas fa-lock"></i>
+                            </button>
+                            <button class="btn-action" title="Changer l'état">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="btn-action" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Job Card 4 -->
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">Responsable Commercial</h3>
+                            <div class="job-department">Ventes & Commercial</div>
+                        </div>
+                        <span class="status-badge status-active">Active</span>
+                    </div>
+                    
+                    <div class="job-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Constantine, Algérie</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Temps plein</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tags-container">
+                        <span class="tag">Vente B2B</span>
+                        <span class="tag">Développement Commercial</span>
+                        <span class="tag">Gestion d'équipe</span>
+                        <span class="tag">Négociation</span>
+                    </div>
+                    
+                    <p class="job-description">
+                        Nous cherchons un Responsable Commercial pour développer nos activités dans la région de Constantine. Vous serez responsable d'une équipe de vendeurs et de la réalisation des objectifs commerciaux.
+                    </p>
+                    
+                    <div class="job-meta">
+                        <div class="job-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Publié le 10/03/2025</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user-tie"></i>
+                                <span>30 candidats</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>178 vues</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-actions">
+                            <button class="btn-action" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action" title="Clôturer">
+                                <i class="fas fa-lock"></i>
+                            </button>
+                            <button class="btn-action" title="Changer l'état">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="btn-action" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+{% endblock %}

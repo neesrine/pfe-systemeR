@@ -1,0 +1,268 @@
+
+{% extends 'djezzy_app/base2.html' %}
+{% load static %}
+{% block contentCandidat%}
+    <link rel="stylesheet" href="{% static 'css/adminProfile.css' %}">
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">Mon Profil</h1>
+                <div class="user-info">
+                    <span class="user-name">Brahim Mansouri</span>
+                    <div class="user-avatar">BM</div>
+                </div>
+            </div>
+
+            <!-- Profile Container -->
+            <div class="profile-container">
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="profile-header">
+                        <div class="edit-cover">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                            <div class="edit-avatar">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <div class="profile-name">{{ Admin.nom_admin }}</div>
+                        <div class="profile-title">Administrateur Système Senior</div>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="stat-value">158</div>
+                            <div class="stat-label">Annonces créées</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="stat-value">243</div>
+                            <div class="stat-label">Candidats gérés</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="stat-value">37</div>
+                            <div class="stat-label">Utilisateurs</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <div class="profile-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="detail-content">
+                                <div class="detail-label">Email</div>
+                                <div class="detail-value">{{ Admin.email_admin }}</div>
+                            </div>
+                        </div>
+                        <div class="profile-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                        
+                        </div>
+                        <div class="profile-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="detail-content">
+                                <div class="detail-label">Département</div>
+                                <div class="detail-value">Technologie de l'Information</div>
+                            </div>
+                        </div>
+                        <div class="profile-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <div class="detail-label">Localisation</div>
+                                <div class="detail-value">{{ Admin.region }}</div>
+                            </div>
+                        </div>
+                        <div class="profile-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <div class="detail-label">Date d'embauche</div>
+                                <div class="detail-value">15 Juin 2020</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="profile-btn profile-btn-primary">
+                            <i class="fas fa-edit"></i> Modifier le profil
+                        </button>
+                        <button class="profile-btn">
+                            <i class="fas fa-lock"></i> Changer le mot de passe
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Profile Content -->
+                <div class="profile-content">
+                    <!-- Information personnelle -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-user"></i> Informations personnelles
+                            </div>
+                            <div class="card-actions">
+                                <div class="card-action">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="profile-form-group">
+                                        <label class="profile-form-label">Nom</label>
+                                        <input type="text" class="profile-form-input" value="Mansouri" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-col">
+                                    <div class="profile-form-group">
+                                        <label class="profile-form-label">Prénom</label>
+                                        <input type="text" class="profile-form-input" value="Brahim" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="profile-form-group">
+                                        <label class="profile-form-label">Email</label>
+                                        <input type="email" class="profile-form-input" value="brahim.mansouri@djezzy.dz" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-col">
+                                    <div class="profile-form-group">
+                                        <label class="profile-form-label">Téléphone</label>
+                                        <input type="tel" class="profile-form-input" value="+213 555 123 456" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="profile-form-group">
+                                        <label class="profile-form-label">Date de naissance</label>
+                                        <input type="date" class="profile-form-input" value="1985-08-12" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-col">
+                                    <div class="profile-form-group">
+                                        <label class="profile-form-label">Adresse</label>
+                                        <input type="text" class="profile-form-input" value="Sidi Yahia, Hydra, Alger" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-form-group">
+                                <label class="profile-form-label">Biographie</label>
+                                <textarea class="profile-form-input" rows="4" disabled>Administrateur système senior avec 8 ans d'expérience dans la gestion de systèmes IT complexes et le développement de solutions de recrutement digitales. Expert en optimisation de processus RH et en sécurité des données.</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activité récente -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-history"></i> Activité récente
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-timeline">
+                                <div class="timeline-line"></div>
+                                <div class="timeline-item">
+                                    <div class="timeline-point"></div>
+                                    <div class="timeline-date">Aujourd'hui à 11:30</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Création d'une nouvelle annonce</div>
+                                        <div class="timeline-desc">Vous avez créé une annonce pour le poste "Développeur Front-end Senior"</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-point"></div>
+                                    <div class="timeline-date">Hier à 15:45</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Ajout d'un nouvel utilisateur</div>
+                                        <div class="timeline-desc">Vous avez ajouté "Farida Mekkaoui" comme recruteur dans le système</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-point"></div>
+                                    <div class="timeline-date">28/03/2025 à 09:15</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Mise à jour des paramètres système</div>
+                                        <div class="timeline-desc">Vous avez modifié les paramètres de notification pour tous les utilisateurs</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-point"></div>
+                                    <div class="timeline-date">25/03/2025 à 14:20</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Validation de candidature</div>
+                                        <div class="timeline-desc">Vous avez approuvé la candidature de "Karim Lahlou" pour le poste d'Administrateur IT</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="view-all">Voir toutes les activités</div>
+                        </div>
+                    </div>
+
+                    <!-- Sécurité du compte -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-shield-alt"></i> Sécurité du compte
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="security-setting">
+                                <div class="security-info">
+                                    <h4>Authentification à deux facteurs</h4>
+                                    <p>Ajoute une couche de sécurité supplémentaire à votre compte</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="security-setting">
+                                <div class="security-info">
+                                    <div class="security-label">Dernière connexion</div>
+                                    <div class="security-value">03 Avril 2025 à 08:23</div>
+                                </div>
+                            </div>
+                            <div class="security-setting">
+                                <div class="security-info">
+                                    <div class="security-label">Authentification à deux facteurs</div>
+                                    <div class="security-value">Activée</div>
+                                </div>
+                                <button class="security-btn">Gérer</button>
+                            </div>
+                            <div class="security-setting">
+                                <div class="security-info">
+                                    <div class="security-label">Historique des connexions</div>
+                                    <div class="security-value">5 connexions la semaine dernière</div>
+                                </div>
+                                <button class="security-btn">Voir l'historique</button>
+                            </div>
+                            <div class="security-setting">
+                                <div class="security-info">
+                                    <div class="security-label">Changer le mot de passe</div>
+                                </div>
+                                <button class="security-btn">Modifier</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+    {% endblock %}  
